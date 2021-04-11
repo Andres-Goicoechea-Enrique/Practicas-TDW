@@ -5,29 +5,28 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <title>Anales de la Ciencia</title>
     </head>
+
     <body">
         <div class="container pt-3 my-3 border bg-dark text-center">
             <h1 class="text-primary">Anales de la Ciencia</h1>
         </div>
 
-        <div>
-            <h1 class="bg-primary">METER UN LOGIN https://www.w3schools.com/bootstrap4/bootstrap_forms_input_group.asp</h1>
-        </div>
-        <div class="form-group">
-            <label id="usr">Name:</label>
-            <input type="text" class="form-control" id="usr">
-            <label id="pwd">Password:</label>
-            <input type="password" class="form-control" id="pwd">
-        </div>
-        <div>
-            <button type="button" class="btn btn-primary">LOG IN</button>
-        </div>
+        <form id="iniciarSesion" class="form-inline">
+            <label for="usr" class="mr-sm-2">Usuario:</label>
+            <input type="text" name="user" class="form-control mr-sm-2" placeholder="Usuario" id="usr">
+            <label for="pwd" class="mr-sm-2">Contraseña:</label>
+            <input type="password" name="password" class="form-control mr-sm-2" placeholder="Contraseña" id="pwd">
+            <button type="button" class="btn btn-primary sm-2" onclick="loguearse()">LOGIN</button>
+        </form>
+        
+        
         
         <div class="row">
             <div class="col-sm-3 container pt-3 my-3 border bg-dark text-white text-center"><p>Productos</p></div>
             <div class="col-sm-3 container pt-3 my-3 border bg-dark text-white text-center"><p>Personas</p></div>
             <div class="col-sm-3 container pt-3 my-3 border bg-dark text-white text-center"><p>Entidades</p></div>
         </div>
+
         <script src="Pruebas.js"></script>
         
     </body>

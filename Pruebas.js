@@ -1,3 +1,14 @@
+function loguearse(){
+    console.log("Ha entrado en loguearse!!")
+    //let borrarFormLogin = document.removeItem("formLogin");
+    //borrarFormLogin;
+    //let parent = document.getElementById("formLogin");
+
+
+    
+}
+
+
 function coordenada(x,y){
     this.x=x;
     this.y=y;
