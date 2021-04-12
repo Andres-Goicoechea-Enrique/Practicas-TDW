@@ -7,29 +7,35 @@
     </head>
 
     <body>
-        <div class="container pt-3 my-3 border bg-dark text-center">
-            <h1 class="text-primary">Anales de la Ciencia</h1>
-        </div>
+        <header>
+            <div class="container pt-3 my-3 border bg-dark text-center">
+                <h1 class="text-primary">Anales de la Ciencia</h1>
+            </div>
+        </header>
+        <main>
+            <section id="loginLogout">
+                <article id="iniciarSesion">
+                    <form class="form-inline" action="login">
+                        <label for="user" class="mr-sm-2" style="margin-left: 45px;">Usuario:</label>
+                        <input id="user" type="text" name="user" class="form-control mr-sm-2" placeholder="Usuario"/>
+                        <label for="pass" class="mr-sm-2">Contraseña:</label>
+                        <input id="pass" type="password" name="password" class="form-control mr-sm-2" placeholder="Contraseña"/>
+                        <button type="button" class="btn btn-primary sm-2" onclick="funcClickLogin()">LOGIN</button>
+                    </form>
+                </article>
+            </section>
+            
+    
+    
+            <div class="row">
+                <div class="col-sm-3 container pt-3 my-3 border bg-dark text-white text-center"><p>Productos</p></div>
+                <div class="col-sm-3 container pt-3 my-3 border bg-dark text-white text-center"><p>Personas</p></div>
+                <div class="col-sm-3 container pt-3 my-3 border bg-dark text-white text-center"><p>Entidades</p></div>
+            </div>
+    
+            <script src="Pruebas.js"></script>
 
-        <div id="iniciarSesion">
-            <form class="form-inline" action="login">
-                <label for="user" class="mr-sm-2" style="margin-left: 45px;">Usuario:</label>
-                <input id="user" type="text" name="user" class="form-control mr-sm-2" placeholder="Usuario"/>
-                <label for="pass" class="mr-sm-2">Contraseña:</label>
-                <input id="pass" type="password" name="password" class="form-control mr-sm-2" placeholder="Contraseña"/>
-                <button type="button" class="btn btn-primary sm-2" onclick="funcClickLogin(document.getElementById('user'), document.getElementById('pass'))">LOGIN</button>
-            </form>
-        </div>
-
-
-        <div class="row">
-            <div class="col-sm-3 container pt-3 my-3 border bg-dark text-white text-center"><p>Productos</p></div>
-            <div class="col-sm-3 container pt-3 my-3 border bg-dark text-white text-center"><p>Personas</p></div>
-            <div class="col-sm-3 container pt-3 my-3 border bg-dark text-white text-center"><p>Entidades</p></div>
-        </div>
-
-        <script src="Pruebas.js"></script>
-        
+        </main> 
     </body>
 </html>
     

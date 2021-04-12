@@ -23,12 +23,14 @@ let users = [
 
 let logueado = false;
 let infoUsuarioLogueado = undefined;
-let logout = '<div id="cerrarSesion"><button type="button" class="btn btn-primary sm-2" style="margin-left: 45px;" onclick="funcLogOut()">LOGOUT</button></div>';
-let login = '<div id="iniciarSesion"><form class="form-inline" action="login"><label for="user" class="mr-sm-2" style="margin-left: 45px;">Usuario:</label><input id="user" type="text" name="user" class="form-control mr-sm-2" placeholder="Usuario"/><label for="pass" class="mr-sm-2">Contraseña:</label><input id="pass" type="password" name="password" class="form-control mr-sm-2" placeholder="Contraseña"/><button type="button" class="btn btn-primary sm-2" onclick="funcClickLogin(document.getElementById("user"), document.getElementById("pass"))">LOGIN</button></form></div>';
+let logout = '<article id="cerrarSesion"><button type="button" class="btn btn-primary sm-2" style="margin-left: 45px;" onclick="funcLogOut()">LOGOUT</button></article>';
+let login = '<article id="iniciarSesion"><form class="form-inline" action="login"><label for="user" class="mr-sm-2" style="margin-left: 45px;">Usuario:</label><input id="user" type="text" name="user" class="form-control mr-sm-2" placeholder="Usuario"/><label for="pass" class="mr-sm-2">Contraseña:</label><input id="pass" type="password" name="password" class="form-control mr-sm-2" placeholder="Contraseña"/><button type="button" class="btn btn-primary sm-2" onclick="funcClickLogin()">LOGIN</button></form></article>';
 
-function funcClickLogin(user, password){
+function funcClickLogin(){
+    let user = document.getElementById('user');
+    let password = document.getElementById('pass');
     let usuIndex=0;
-    while(usuIndex<users.length && !logueado){
+    while(usuIndex < users.length && !logueado){
         if(users[usuIndex].user == user.value && users[usuIndex].password == password.value){
             logueado = true;
             infoUsuarioLogueado = users[usuIndex];
@@ -44,13 +46,14 @@ function funcClickLogin(user, password){
 }
 
 function cambiarLogin(){
-    let x = document.getElementById("iniciarSesion");
+    let x = document.getElementById("loginLogout");
     x.innerHTML = logout;
 }
 
 function funcLogOut(){
-    let x = document.getElementById("cerrarSesion");
+    let x = document.getElementById("loginLogout");
     x.innerHTML = login;
+    logueado = false;
 }
 
 
