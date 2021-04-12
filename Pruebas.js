@@ -13,11 +13,6 @@ let users = [
         user : "z",
         password : "z",
         tipo : "w"
-    },
-    {
-        user : "r",
-        password : "r",
-        tipo : "r"
     }
 ];
 
@@ -56,18 +51,30 @@ function funcLogOut(){
     logueado = false;
 }
 
-
-
-function coordenada(x,y){
-    this.x=x;
-    this.y=y;
-}
-coordenada.prototype.isDiagonal = ()=> {console.log(this.x); console.log(this.y);return this.x == this.y};
-
-
-coordenada.dim = 2;
-coordenada.getDim = ()=> {return coordenada.dim;}
-let a = new coordenada(2,3);
-console.log(a);
-console.log(a.isDiagonal());
-console.log(coordenada.getDim());
+let Productos = [
+    {
+        name : "HTML",
+        dateCreation : "29 de octubre de 1991",
+        dateDead : undefined,
+        image : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/230px-HTML5_logo_and_wordmark.svg.png",
+        wiki : "https://es.wikipedia.org/wiki/HTML",
+        personas : [],
+        entidades : []
+    }];
+let Personas = [
+    {
+        name : "HTML",
+        dateCreation : "29 de octubre de 1991",
+        dateDead : undefined,
+        image : "",
+        wiki : "",
+    }];
+let Entidades = [
+    {
+        name : "HTML",
+        dateCreation : "29 de octubre de 1991",
+        dateDead : undefined,
+        image : "",
+        wiki : "",
+        personas : []
+    }];
