@@ -4,9 +4,16 @@
         <meta charset="UTF-8">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <title>Anales de la Ciencia</title>
+        <script type="text/javascript">
+            // Para cargar los datos una vez
+            window.onload = function(){
+                cargarInformacion();
+            };
+        </script>
     </head>
 
     <body>
+
         <header>
             <div class="container pt-3 my-3 border bg-dark text-center">
                 <h1 class="text-primary">Anales de la Ciencia</h1>
@@ -24,12 +31,50 @@
                     </form>
                 </article>
             </section>
+            
+            <!-- class="pt-3 my-3 border bg-dark text-white text-center" -->
+
             <section>
-                <div class="row">
-                    <div class="col-sm-3 container pt-3 my-3 border bg-dark text-white text-center"><p>Productos</p></div>
-                    <div class="col-sm-3 container pt-3 my-3 border bg-dark text-white text-center"><p>Personas</p></div>
-                    <div class="col-sm-3 container pt-3 my-3 border bg-dark text-white text-center"><p>Entidades</p></div>
-                </div>
+                <article id="tablaInfo">
+                    <table class="table table-bordered" style="margin-top: 20px;">
+                        <thead>
+                            <tr>
+                                <th class="text-center">PRODUCTOS</th>
+                                <th class="text-center">PERSONAS</th>
+                                <th class="text-center">ENTIDADES</th>
+                            </tr>
+                        </thead>
+                        <tbody id="infoPPE">
+                            <tr>
+                                <td class="">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/230px-HTML5_logo_and_wordmark.svg.png" class="img-thumbnail" width="50px" height="50px"><img>
+                                    <button type="button" class="btn btn-link" onclick="funcMostrarInfoElemento()">HTML</button>
+                                </td>
+                                <td>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/230px-HTML5_logo_and_wordmark.svg.png" class="img-thumbnail" width="50px" height="50px"><a href="https://developer.mozilla.org/es/docs/Web/API/Node">HTML</a></img>
+                                </td>
+                                <td>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/230px-HTML5_logo_and_wordmark.svg.png" class="img-thumbnail" width="50px" height="50px"><a href="https://developer.mozilla.org/es/docs/Web/API/Node">HTML</a></img>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <ul class="list-gtoup">
+                                        <li><a href="https://developer.mozilla.org/es/docs/Web/API/Node">HTML</a><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/230px-HTML5_logo_and_wordmark.svg.png" class="img-thumbnail mx-auto d-block" width="50px" height="50px"><img></li>
+                                        <li></li>
+                                        <li></li>
+                                    </ul>
+                                </td>
+                                <td class="text-center">pe2</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">pr3</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    
+                </article>
             </section>
             
     

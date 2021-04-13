@@ -58,8 +58,8 @@ let Productos = [
         dateDead : undefined,
         image : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/230px-HTML5_logo_and_wordmark.svg.png",
         wiki : "https://es.wikipedia.org/wiki/HTML",
-        personas : [],
-        entidades : []
+        personas : [Personas[0]],
+        entidades : [Entidades[0]]
     }];
 let Personas = [
     {
@@ -76,5 +76,9 @@ let Entidades = [
         dateDead : undefined,
         image : "",
         wiki : "",
-        personas : []
+        personas : [Personas[0]]
     }];
+
+    function funcMostrarInfoElemento(){
+        alert("SE HA ACCEDIDO AL ELEMENTO");
+    }
