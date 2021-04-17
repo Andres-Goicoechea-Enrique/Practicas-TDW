@@ -18,8 +18,8 @@ let users = [
 
 let logueado = false;
 let infoUsuarioLogueado = undefined;
-let logout = '<article id="cerrarSesion"><button type="button" class="btn btn-primary sm-2" style="margin-left: 45px;" onclick="funcLogOut()">LOGOUT</button></article>';
-let login = '<article id="iniciarSesion"><form class="form-inline" action="login"><label for="user" class="mr-sm-2" style="margin-left: 45px;">Usuario:</label><input id="user" type="text" name="user" class="form-control mr-sm-2" placeholder="Usuario"/><label for="pass" class="mr-sm-2">Contraseña:</label><input id="pass" type="password" name="password" class="form-control mr-sm-2" placeholder="Contraseña"/><button type="button" class="btn btn-primary sm-2" onclick="funcClickLogin()">LOGIN</button></form></article>';
+let logout = '<div id="cerrarSesion"><button type="button" class="btn btn-primary sm-2" style="margin-left: 45px;" onclick="funcLogOut()">LOGOUT</button></div>';
+let login = '<div id="iniciarSesion"><form class="form-inline" action="login"><label for="user" class="mr-sm-2" style="margin-left: 45px;">Usuario:</label><input id="user" type="text" name="user" class="form-control mr-sm-2" placeholder="Usuario"/><label for="pass" class="mr-sm-2">Contraseña:</label><input id="pass" type="password" name="password" class="form-control mr-sm-2" placeholder="Contraseña"/><button type="button" class="btn btn-primary sm-2" onclick="funcClickLogin()">LOGIN</button></form></div>';
 
 function funcClickLogin(){
     let user = document.getElementById('user');
@@ -43,12 +43,14 @@ function funcClickLogin(){
 function cambiarLogin(){
     let x = document.getElementById("loginLogout");
     x.innerHTML = logout;
+    alert(infoUsuarioLogueado);
 }
 
 function funcLogOut(){
     let x = document.getElementById("loginLogout");
     x.innerHTML = login;
     logueado = false;
+    infoUsuarioLogueado = undefined;
 }
 
 let Productos = [

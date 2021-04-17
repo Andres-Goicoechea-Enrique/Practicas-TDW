@@ -19,9 +19,10 @@
                 <h1 class="text-primary">Anales de la Ciencia</h1>
             </div>
         </header>
+
         <main>
-            <section id="loginLogout">
-                <article id="iniciarSesion">
+            <div id="loginLogout">
+                <div id="iniciarSesion">
                     <form class="form-inline" action="login">
                         <label for="user" class="mr-sm-2" style="margin-left: 45px;">Usuario:</label>
                         <input id="user" type="text" name="user" class="form-control mr-sm-2" placeholder="Usuario"/>
@@ -29,53 +30,58 @@
                         <input id="pass" type="password" name="password" class="form-control mr-sm-2" placeholder="Contraseña"/>
                         <button type="button" class="btn btn-primary sm-2" onclick="funcClickLogin()">LOGIN</button>
                     </form>
-                </article>
-            </section>
+                </div>
+            </div>
             
             <!-- class="pt-3 my-3 border bg-dark text-white text-center" -->
+            <div id="tablaInfo">
+                <table class="table table-bordered" style="margin-top: 20px;">
+                    <thead>
+                        <tr>
+                            <th class="text-center">PRODUCTOS</th>
+                            <th class="text-center">PERSONAS</th>
+                            <th class="text-center">ENTIDADES</th>
+                        </tr>
+                    </thead>
+                    <tbody id="infoPPE">
+                        <tr id="fila1">
+                            <td id="col1" class="text-center">
+                                <div class="objeto">
+                                    <div class="img">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/230px-HTML5_logo_and_wordmark.svg.png" class="img-thumbnail" width="50px" height="50px"/>
+                                        <a href="https://developer.mozilla.org/es/docs/Web/API/Node">HTML</a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td id="col2" class="text-center">
+                                <div class="objeto">
+                                    <div class="img">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/230px-HTML5_logo_and_wordmark.svg.png" class="img-thumbnail" width="50px" height="50px"/>
+                                        <a href="https://developer.mozilla.org/es/docs/Web/API/Node">HTML</a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td id="col3" class="text-center">
+                                <div class="objeto">
+                                    <div class="img">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/230px-HTML5_logo_and_wordmark.svg.png" class="img-thumbnail" width="50px" height="50px"/>
+                                        <a href="https://developer.mozilla.org/es/docs/Web/API/Node">HTML</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">pe2</td>
+                            <td class="text-center">pe2</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">pr3</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-            <section>
-                <article id="tablaInfo">
-                    <table class="table table-bordered" style="margin-top: 20px;">
-                        <thead>
-                            <tr>
-                                <th class="text-center">PRODUCTOS</th>
-                                <th class="text-center">PERSONAS</th>
-                                <th class="text-center">ENTIDADES</th>
-                            </tr>
-                        </thead>
-                        <tbody id="infoPPE">
-                            <tr>
-                                <td class="">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/230px-HTML5_logo_and_wordmark.svg.png" class="img-thumbnail" width="50px" height="50px"><img>
-                                    <button type="button" class="btn btn-link" onclick="funcMostrarInfoElemento()">HTML</button>
-                                </td>
-                                <td>
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/230px-HTML5_logo_and_wordmark.svg.png" class="img-thumbnail" width="50px" height="50px"><a href="https://developer.mozilla.org/es/docs/Web/API/Node">HTML</a></img>
-                                </td>
-                                <td>
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/230px-HTML5_logo_and_wordmark.svg.png" class="img-thumbnail" width="50px" height="50px"><a href="https://developer.mozilla.org/es/docs/Web/API/Node">HTML</a></img>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <ul class="list-gtoup">
-                                        <li><a href="https://developer.mozilla.org/es/docs/Web/API/Node">HTML</a><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/230px-HTML5_logo_and_wordmark.svg.png" class="img-thumbnail mx-auto d-block" width="50px" height="50px"><img></li>
-                                        <li></li>
-                                        <li></li>
-                                    </ul>
-                                </td>
-                                <td class="text-center">pe2</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">pr3</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                    
-                </article>
-            </section>
+            
             
     
             <script src="Pruebas.js"></script>
