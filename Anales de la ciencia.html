@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <title>Anales de la Ciencia</title>
+        <script src="Pruebas.js"></script>
         <script type="text/javascript">
             // Para cargar los datos una vez
             window.onload = function(){
@@ -13,80 +14,13 @@
     </head>
 
     <body>
+        <header id="header">
 
-        <header>
-            <div class="container pt-3 my-3 border bg-dark text-center">
-                <h1 class="text-primary">Anales de la Ciencia</h1>
-            </div>
         </header>
 
-        <main>
-            <div id="loginLogout">
-                <div id="iniciarSesion">
-                    <form class="form-inline" action="login">
-                        <label for="user" class="mr-sm-2" style="margin-left: 45px;">Usuario:</label>
-                        <input id="user" type="text" name="user" class="form-control mr-sm-2" placeholder="Usuario"/>
-                        <label for="pass" class="mr-sm-2">Contraseña:</label>
-                        <input id="pass" type="password" name="password" class="form-control mr-sm-2" placeholder="Contraseña"/>
-                        <button type="button" class="btn btn-primary sm-2" onclick="funcClickLogin()">LOGIN</button>
-                    </form>
-                </div>
-            </div>
+        <main id="main">
             
-            <!-- class="pt-3 my-3 border bg-dark text-white text-center" -->
-            <div id="tablaInfo">
-                <table class="table table-bordered" style="margin-top: 20px;">
-                    <thead>
-                        <tr>
-                            <th class="text-center">PRODUCTOS</th>
-                            <th class="text-center">PERSONAS</th>
-                            <th class="text-center">ENTIDADES</th>
-                        </tr>
-                    </thead>
-                    <tbody id="infoPPE">
-                        <tr id="fila1">
-                            <td id="col1" class="text-center">
-                                <div class="objeto">
-                                    <div class="img">
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/230px-HTML5_logo_and_wordmark.svg.png" class="img-thumbnail" width="50px" height="50px"/>
-                                        <a href="https://developer.mozilla.org/es/docs/Web/API/Node">HTML</a>
-                                    </div>
-                                </div>
-                            </td>
-                            <td id="col2" class="text-center">
-                                <div class="objeto">
-                                    <div class="img">
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/230px-HTML5_logo_and_wordmark.svg.png" class="img-thumbnail" width="50px" height="50px"/>
-                                        <a href="https://developer.mozilla.org/es/docs/Web/API/Node">HTML</a>
-                                    </div>
-                                </div>
-                            </td>
-                            <td id="col3" class="text-center">
-                                <div class="objeto">
-                                    <div class="img">
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/230px-HTML5_logo_and_wordmark.svg.png" class="img-thumbnail" width="50px" height="50px"/>
-                                        <a href="https://developer.mozilla.org/es/docs/Web/API/Node">HTML</a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">pe2</td>
-                            <td class="text-center">pe2</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">pr3</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            
-            
-    
-            <script src="Pruebas.js"></script>
-
-        </main> 
+        </main>
     </body>
 </html>
     
