@@ -124,7 +124,6 @@ let Entidades = [
 
 
 let logueado = false;
-let permisosWriter = false;
 let infoUsuarioLogueado = undefined;
 let logout = '<div id="cerrarSesion"><button type="button" class="btn btn-primary sm-2" style="margin-left: 45px;" onclick="addLogin()">LOGOUT</button></div>';
 let login = '<div id="iniciarSesion"><form class="form-inline" action="login"><label for="user" class="mr-sm-2" style="margin-left: 45px;">Usuario:</label><input id="user" type="text" name="user" class="form-control mr-sm-2" placeholder="Usuario"/><label for="pass" class="mr-sm-2">Contraseña:</label><input id="pass" type="password" name="password" class="form-control mr-sm-2" placeholder="Contraseña"/><button type="button" class="btn btn-primary sm-2" onclick="funcClickLogin()">LOGIN</button></form></div>';
@@ -152,14 +151,17 @@ function addLogout(){
     let x = document.getElementById("loginLogout");
     x.innerHTML = logout;
     addWriterOptions();
-
 }
-//QUITAR LOS BOTONES CREATE Y DELETE  
+
 function addLogin(){
     let x = document.getElementById("loginLogout");
     x.innerHTML = login;
-    logueado = false;
-    eliminarPermisosWriter();
+    if(logueado){
+        eliminarPermisosWriter();
+    }
+    else{
+        logueado = false;
+    }
     infoUsuarioLogueado = undefined;
 }
 
@@ -247,15 +249,16 @@ function cargarInicio(){
         addLogin();
     }
 }
-//funcion deleteObjeto()
-function crearBotonDelete(){
+
+function crearBotonDelete(id){
+    console.log(id);
     let del = document.createElement("button");
     let attType = document.createAttribute("type");
     attType.value = "button";
     let attClass = document.createAttribute("class");
     attClass.value = "btn btn-danger";
     let attOnclick = document.createAttribute("onclick");
-    attOnclick.value = "deleteObjeto()";
+    attOnclick.value = "deleteObjeto("+ id +")";
     let attId = document.createAttribute("id");
     attId.value = "botonDEL";
 
@@ -270,6 +273,60 @@ function crearBotonDelete(){
 
     return del;
 }
+
+function deleteObjeto(id){
+    console.log(id);
+    let tipoObjeto = id.substring(0,2);
+    let idBuscador = "'"+id+"'";
+    let encontrado = false;
+    let indice = 0;
+
+    console.log(id);
+    if(tipoObjeto == "pr"){
+        while(!encontrado){
+            if(Productos[indice].id == idBuscador){
+                encontrado = true;
+            }
+            indice++;
+        }
+        indice--;
+
+        for(let i = indice ; i<Productos.length-1 ; i++){
+            Productos[i] = Productos[i+1]
+        }
+        Productos = Productos.splice(0, Productos.length-1);
+    }
+    else if(tipoObjeto == "pe"){
+        while(!encontrado){
+            if(Personas[indice].id == idBuscador){
+                encontrado = true;
+            }
+            indice++;
+        }
+        indice--;
+
+        for(let i = indice ; i<Personas.length-1 ; i++){
+            Personas[i] = Personas[i+1]
+        }
+        Personas = Personas.splice(0, Personas.length-1);
+    }
+    else{
+        while(!encontrado){
+            if(Entidades[indice].id == idBuscador){
+                encontrado = true;
+            }
+            indice++;
+        }
+        indice--;
+
+        for(let i = indice ; i<Entidades.length-1 ; i++){
+            Entidades[i] = Entidades[i+1]
+        }
+        Entidades = Entidades.splice(0, Entidades.length-1);
+    }
+    cargarInicio();
+}
+
 //funcion createObjeto()
 function crearBotonCreate(){
     let cre = document.createElement("button");
@@ -329,7 +386,7 @@ function addWriterOptions(){
     tbody.appendChild(tr);
 
     for(let index=0 ; index<Productos.length ; index++){
-        let botonDelete = crearBotonDelete();
+        let botonDelete = crearBotonDelete(Productos[index].id);
         
         let div = document.getElementById(Productos[index].id);
 
@@ -337,7 +394,7 @@ function addWriterOptions(){
     }
     
     for(let index=0 ; index<Personas.length ; index++){
-        let botonDelete = crearBotonDelete();
+        let botonDelete = crearBotonDelete(Personas[index].id);
         
         let div = document.getElementById(Personas[index].id);
 
@@ -345,7 +402,7 @@ function addWriterOptions(){
     }
 
     for(let index=0 ; index<Entidades.length ; index++){
-        let botonDelete = crearBotonDelete();
+        let botonDelete = crearBotonDelete(Entidades[index].id);
         
         let div = document.getElementById(Entidades[index].id);
 
