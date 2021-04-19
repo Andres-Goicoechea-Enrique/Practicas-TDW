@@ -124,6 +124,7 @@ let Entidades = [
 
 
 let logueado = false;
+let permisosWriter = false;
 let infoUsuarioLogueado = undefined;
 let logout = '<div id="cerrarSesion"><button type="button" class="btn btn-primary sm-2" style="margin-left: 45px;" onclick="addLogin()">LOGOUT</button></div>';
 let login = '<div id="iniciarSesion"><form class="form-inline" action="login"><label for="user" class="mr-sm-2" style="margin-left: 45px;">Usuario:</label><input id="user" type="text" name="user" class="form-control mr-sm-2" placeholder="Usuario"/><label for="pass" class="mr-sm-2">Contraseña:</label><input id="pass" type="password" name="password" class="form-control mr-sm-2" placeholder="Contraseña"/><button type="button" class="btn btn-primary sm-2" onclick="funcClickLogin()">LOGIN</button></form></div>';
@@ -151,15 +152,25 @@ function addLogout(){
     let x = document.getElementById("loginLogout");
     x.innerHTML = logout;
     addWriterOptions();
-}
 
+}
+//QUITAR LOS BOTONES CREATE Y DELETE  
 function addLogin(){
     let x = document.getElementById("loginLogout");
     x.innerHTML = login;
     logueado = false;
+    eliminarPermisosWriter();
     infoUsuarioLogueado = undefined;
 }
 
+function eliminarPermisosWriter(){
+    let botonCreate = document.getElementById("filaBotonCRE");
+    botonCreate.remove();
+    for(let i=0 ; i<(Productos.length + Personas.length + Entidades.length) ; i++){
+        let botonDelete = document.getElementById("botonDEL"); document.get
+        botonDelete.remove();
+    }
+}
 
 function maxFilas(){
     let max = 0;
@@ -211,13 +222,13 @@ function cargarInicio(){
         infoEntidad = '';
 
         if(i < Productos.length){
-            infoProducto += '<div id="'+Productos[i].id+'"><img src="'+Productos[i].image+'" class="img-thumbnail" width="50px" height="50px"/><button type="button" class="btn btn-link" onclick="showDataOfElemForReader('+Productos[i].id+')">'+Productos[i].name+'</button></div>';
+            infoProducto += '<div id="'+Productos[i].id+'"><img src="'+Productos[i].image+'" class="img-thumbnail" width="50px" height="50px"/><button type="button" class="btn btn-link" onclick="mostrarInfoObjeto('+Productos[i].id+')">'+Productos[i].name+'</button></div>';
         }
         if(i < Personas.length){
-            infoPersona += '<div id="'+Personas[i].id+'"><img src="'+Personas[i].image+'" class="img-thumbnail" width="50px" height="50px"/><button type="button" class="btn btn-link" onclick="showDataOfElemForReader('+Personas[i].id+')">'+Personas[i].name+'</button></div>';
+            infoPersona += '<div id="'+Personas[i].id+'"><img src="'+Personas[i].image+'" class="img-thumbnail" width="50px" height="50px"/><button type="button" class="btn btn-link" onclick="mostrarInfoObjeto('+Personas[i].id+')">'+Personas[i].name+'</button></div>';
         }
         if(i < Entidades.length){
-            infoEntidad += '<div id="'+Entidades[i].id+'""><img src="'+Entidades[i].image+'" class="img-thumbnail" width="50px" height="50px"/><button type="button" class="btn btn-link" onclick="showDataOfElemForReader('+Entidades[i].id+')">'+Entidades[i].name+'</button></div>';
+            infoEntidad += '<div id="'+Entidades[i].id+'""><img src="'+Entidades[i].image+'" class="img-thumbnail" width="50px" height="50px"/><button type="button" class="btn btn-link" onclick="mostrarInfoObjeto('+Entidades[i].id+')">'+Entidades[i].name+'</button></div>';
         }
         td1.innerHTML = infoProducto;
         td2.innerHTML = infoPersona;
@@ -229,7 +240,6 @@ function cargarInicio(){
 
         tbody.appendChild(tr);
     }
-    //BORRAR
     if(logueado){
         addLogout();
     }
@@ -281,9 +291,6 @@ function crearBotonCreate(){
     return cre;
 }
 
-
-
-//IMPLEMENTAR
 function addWriterOptions(){
 
     let tbody = document.getElementById("tbodyPPE");
@@ -345,21 +352,25 @@ function addWriterOptions(){
         div.appendChild(botonDelete);
     }
 }
-//Que hace?
-function funcMostrarInfoElemento(){
-    if(!logueado){
-        showDataElementForReader();
-    }
-    else{
-        showDataElementForWriter();
-    }
-}
 
-function showDataOfElemForReader(id){
-    alert(id.substring(0,2));
-    
+function mostrarInfoObjeto(id){
+    let tipoObjeto = id.substring(0,2);
+    let total = '';
     let main = document.getElementById("main");
     let inicio = '<div id="inicio"><button type="button" class="btn btn-primary" style="margin-left: 45px;" onclick="cargarInicio()">INICIO</button></div>';
+
+    if(tipoObjeto == "pr"){
+        console.log("ES UN PRODUCTO");
+
+        
+    }
+    else if(tipoObjeto == "pe"){
+        console.log("ES UNA PERSONA");
+    }
+    else{
+        console.log("ES UNA ENTIDAD");
+    }
+    
     let nombre = '';
     let dateCreation = '';
     let dateDead = '';
