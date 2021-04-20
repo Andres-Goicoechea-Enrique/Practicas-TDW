@@ -251,7 +251,6 @@ function cargarInicio(){
 }
 
 function crearBotonDelete(id){
-    console.log(id);
     let del = document.createElement("button");
     let attType = document.createAttribute("type");
     attType.value = "button";
@@ -275,35 +274,19 @@ function crearBotonDelete(id){
 }
 
 function deleteObjeto(id){
-    console.log(id);
     let tipoObjeto = id.substring(0,2);
     let idBuscador = "'"+id+"'";
-    let encontrado = false;
     let indice = 0;
 
-    console.log(id);
     if(tipoObjeto == "pr"){
-        while(!encontrado){
-            if(Productos[indice].id == idBuscador){
-                encontrado = true;
-            }
-            indice++;
-        }
-        indice--;
-
+        indice = buscarIndiceProducto(idBuscador);
         for(let i = indice ; i<Productos.length-1 ; i++){
             Productos[i] = Productos[i+1]
         }
         Productos = Productos.splice(0, Productos.length-1);
     }
     else if(tipoObjeto == "pe"){
-        while(!encontrado){
-            if(Personas[indice].id == idBuscador){
-                encontrado = true;
-            }
-            indice++;
-        }
-        indice--;
+        indice = buscarIndicePersona(idBuscador);
 
         for(let i = indice ; i<Personas.length-1 ; i++){
             Personas[i] = Personas[i+1]
@@ -311,13 +294,7 @@ function deleteObjeto(id){
         Personas = Personas.splice(0, Personas.length-1);
     }
     else{
-        while(!encontrado){
-            if(Entidades[indice].id == idBuscador){
-                encontrado = true;
-            }
-            indice++;
-        }
-        indice--;
+        indice = buscarIndiceEntidad(idBuscador);
 
         for(let i = indice ; i<Entidades.length-1 ; i++){
             Entidades[i] = Entidades[i+1]
@@ -325,6 +302,40 @@ function deleteObjeto(id){
         Entidades = Entidades.splice(0, Entidades.length-1);
     }
     cargarInicio();
+}
+
+function buscarIndiceProducto(idBuscador){
+    let encontrado = false;
+    let indiceProducto = 0;
+    while(!encontrado){
+        if(Productos[indiceProducto].id == idBuscador){
+            encontrado = true;
+        }
+        indiceProducto++;
+    }
+    return indiceProducto - 1;
+}
+function buscarIndicePersona(idBuscador){
+    let encontrado = false;
+    let indiceProducto = 0;
+    while(!encontrado){
+        if(Personas[indiceProducto].id == idBuscador){
+            encontrado = true;
+        }
+        indiceProducto++;
+    }
+    return indiceProducto - 1;
+}
+function buscarIndiceEntidad(idBuscador){
+    let encontrado = false;
+    let indiceProducto = 0;
+    while(!encontrado){
+        if(Entidades[indiceProducto].id == idBuscador){
+            encontrado = true;
+        }
+        indiceProducto++;
+    }
+    return indiceProducto - 1;
 }
 
 //funcion createObjeto()
@@ -409,17 +420,77 @@ function addWriterOptions(){
         div.appendChild(botonDelete);
     }
 }
-
+//IMPLEMENTAR
 function mostrarInfoObjeto(id){
     let tipoObjeto = id.substring(0,2);
+    let idBuscador = "'"+id+"'";
     let total = '';
     let main = document.getElementById("main");
-    let inicio = '<div id="inicio"><button type="button" class="btn btn-primary" style="margin-left: 45px;" onclick="cargarInicio()">INICIO</button></div>';
+    let inicio = '';
+
+    let ini = '<div class="row"><div class="col-sm-4  text-center">';
+    let nombre = '';
+    let dateCreation = '';
+    let dateDead = '';
+    let imagen = '';
+    let iframe = '';
+    let fin = '</div></div>';
+
+    if(logueado){
+        inicio = '<div id="inicioYeditar" class="row"><div class="col-sm-6" ><button type="button" class="btn btn-primary" style="margin-left: 70px;  margin-bottom: 5px;" onclick="cargarInicio()">INICIO</button></div><div class="col-sm-6 text-right"><button type="button" class="btn btn-info" style="margin-right: 110px; margin-bottom: 5px;" onclick="editarObjeto()">EDITAR</button></div></div>';
+    }
+    else{
+        inicio = '<div id="inicio"><button type="button" class="btn btn-primary" style="margin-left: 45px;" onclick="cargarInicio()">INICIO</button></div>';
+    }
+
 
     if(tipoObjeto == "pr"){
         console.log("ES UN PRODUCTO");
+        console.log(idBuscador);
+        let totalPersonas = '';//string con todas las urls image de personas
+        let totalEntidades = '';//string con todas las urls image de entidades
 
+        let indice = buscarIndiceProducto(idBuscador);
         
+        nombre = '<div><b>'+Productos[indice].name+'</b></div>';
+        dateCreation = '<div>'+Productos[indice].dateCreation+'</div>';
+        if(Productos[indice].dateDead == undefined){
+            dateDead = '<div>-Actualidad</div>';
+        }
+        else{
+            dateDead = '<div>-'+Productos[indice].dateDead+'</div>';
+        }
+        imagen = '<div><img src="'+Productos[indice].image+'" class="img-thumbnail" width="300px" height="300px"/></div></div>';
+        iframe = '<div class="col-sm-8"><div><iframe src="'+Productos[indice].wiki+'" width="790px" height="400px"></iframe> </div></div></div>';
+        //LISTAS DE PERSONAS y ENTIDADES
+        let iniPersonas = '<div class="row text-center"><div class="col-sm-6">';
+        let finPersonas = '</div>';
+        if(Productos[indice].listaPersonas.length == 0){
+            totalPersonas = iniPersonas + "NO HAY PERSONAS RELACIONADAS" + finPersonas;
+        }
+        else{
+            for(let x=0 ; x<Productos[indice].listaPersonas.length ; x++){
+                iniPersonas += '<img src="'+Personas[buscarIndicePersona("'"+Productos[indice].listaPersonas[x]+"'")].image+'" width="50px" height="50px"/>';
+            }
+            totalPersonas = iniPersonas + finPersonas;
+            console.log(totalPersonas);
+        }
+        
+
+        let iniEntidades = '<div class="col-sm-6">';
+        let finEntidades = '</div></div>';
+        if(Productos[indice].listaEntidades.length == 0){
+            totalPersonas = iniEntidades + "NO HAY ENTIDADES RELACIONADAS" + finEntidades;
+        }
+        else{
+            for(let x=0 ; x<Productos[indice].listaEntidades.length ; x++){
+                iniEntidades += '<img src="'+Entidades[buscarIndiceEntidad("'"+Productos[indice].listaEntidades[x]+"'")].image+'" width="50px" height="50px"/>';
+            }
+            totalEntidades = iniEntidades + finEntidades;
+            console.log(totalEntidades);
+        }
+        total = inicio + ini + nombre + dateCreation + dateDead + imagen + iframe + totalPersonas + totalEntidades;
+        console.log(total);
     }
     else if(tipoObjeto == "pe"){
         console.log("ES UNA PERSONA");
@@ -428,16 +499,13 @@ function mostrarInfoObjeto(id){
         console.log("ES UNA ENTIDAD");
     }
     
-    let nombre = '';
-    let dateCreation = '';
-    let dateDead = '';
-    let imagen = '';
-    let iframe = '';
-    let people = '';
-    let entities = '';
-    main.innerHTML = inicio;
+    
+    main.innerHTML = total;
 }
 
+
+
+//BORRAR
 function showDataPersonaForReader(){
     let main = document.getElementById("main");
     let inicio = '<div id="inicio"><button type="button" class="btn btn-primary" style="margin-left: 45px;" onclick="cargarInicio()">INICIO</button></div>';
@@ -447,7 +515,7 @@ function showDataPersonaForReader(){
     let imagen = '';
     let iframe = '';
 }
-
+//BORRAR
 function showDataEntidadForReader(){
     let main = document.getElementById("main");
     let inicio = '<div id="inicio"><button type="button" class="btn btn-primary" style="margin-left: 45px;" onclick="cargarInicio()">INICIO</button></div>';
@@ -459,7 +527,10 @@ function showDataEntidadForReader(){
     let people = '';
 }
 
-
+//IMPLEMENTAR
+function editarObjeto(){
+    alert("IMPLEMNTAR BOTON EDITAR");
+}
 
 
 
