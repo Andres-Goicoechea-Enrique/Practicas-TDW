@@ -179,6 +179,7 @@ function eliminarPermisosWriter(){
         let botonDelete = document.getElementById("botonDEL"); document.get
         botonDelete.remove();
     }
+    logueado = false;
 }
 
 function maxFilas(){
@@ -279,7 +280,7 @@ function crearBotonDelete(id){
 
     return del;
 }
-//BORRAR REALCIONES ENTRE OBJETOS
+//BORRAR REALCIONES ENTRE OBJETOS Y TIENE COMENTARIOS
 function deleteObjeto(id){
     let tipoObjeto = id.substring(0,2);// pr, pe, en
     let idBuscador = "'"+id+"'";// 'pr', 'pe', 'en'
@@ -288,7 +289,54 @@ function deleteObjeto(id){
     if(tipoObjeto == "pr"){
         
         indice = buscarIndiceProducto(idBuscador);
-        if(Productos[indice].listaPersonas.length == 0 && Productos[indice].listaEntidades.length == 0){
+
+        if(logueado){//Productos[indice].listaPersonas.length == 0 && Productos[indice].listaEntidades.length == 0
+
+            //Borrar de borarRelaProducto de Persona, el Producto que se quiere borrar
+            console.log("Borrando el producto de Persona");
+            for(let persona = 0 ; persona<Productos[indice].listaPersonas.length ; persona++){
+
+                let indiceIdPersona = buscarIndicePersona("'"+Productos[indice].listaPersonas[persona]+"'");
+                
+                let find = false;
+                let indiceProductoBorradoBorrarRelasProductos = 0;
+                while(!find){
+                    if(id == Personas[indiceIdPersona].borrarRelasProductos[indiceProductoBorradoBorrarRelasProductos]){
+                        find = true;
+                    }
+                    indiceProductoBorradoBorrarRelasProductos++;
+                }
+                indiceProductoBorradoBorrarRelasProductos--;
+    
+                for(let i = indiceProductoBorradoBorrarRelasProductos ; i<Personas[indiceIdPersona].borrarRelasProductos.length-1 ; i++){
+                    Personas[indiceIdPersona].borrarRelasProductos[i] = Personas[indiceIdPersona].borrarRelasProductos[i + 1];
+                }
+                Personas[indiceIdPersona].borrarRelasProductos = Personas[indiceIdPersona].borrarRelasProductos.slice(0, Personas[indiceIdPersona].borrarRelasProductos.length-1);
+            }
+            
+            //Borrar de borarRelaProductos de Entidad, el Producto que se quiere borrar
+            console.log("Borrando el producto de Entidad");
+            for(let entidad = 0 ; entidad<Productos[indice].listaEntidades.length ; entidad++){
+
+                let indiceIdEntidad = buscarIndiceEntidad("'"+Productos[indice].listaEntidades[entidad]+"'");
+                
+                let find = false;
+                let indiceProductoBorradoBorrarRelasProductos = 0;
+                while(!find){
+                    if(id == Entidades[indiceIdEntidad].borrarRelasProductos[indiceProductoBorradoBorrarRelasProductos]){
+                        find = true;
+                    }
+                    indiceProductoBorradoBorrarRelasProductos++;
+                }
+                indiceProductoBorradoBorrarRelasProductos--;
+    
+                for(let i = indiceProductoBorradoBorrarRelasProductos ; i<Entidades[indiceIdEntidad].borrarRelasProductos.length-1 ; i++){
+                    Entidades[indiceIdEntidad].borrarRelasProductos[i] = Entidades[indiceIdEntidad].borrarRelasProductos[i + 1];
+                }
+                Entidades[indiceIdEntidad].borrarRelasProductos = Entidades[indiceIdEntidad].borrarRelasProductos.slice(0, Entidades[indiceIdEntidad].borrarRelasProductos.length-1);
+            }
+            //fin
+
             for(let i = indice ; i<Productos.length-1 ; i++){
                 Productos[i] = Productos[i+1];
             }
@@ -302,7 +350,7 @@ function deleteObjeto(id){
     //PERSONAS
     else if(tipoObjeto == "pe"){
         indice = buscarIndicePersona(idBuscador);
-
+        console.log("Borrando la persona de producto");
         for(let producto = 0 ; producto<Personas[indice].borrarRelasProductos.length ; producto++){//Recorrer borrarRelasProductos
             //pe1.borrarRelasProductos[producto] = pr1
             //hay que ir a pr1.listaPersonas[x].push() x = pos de pe1 en listaPersonas
@@ -323,8 +371,8 @@ function deleteObjeto(id){
             }
             indicePersonaBorradaListaPersonaProducto--;
 
-            for(let i = indicePersonaBorradaListaPersonaProducto ; i<Productos[indiceIdProducto].listaPersonas.length ; i++){
-                Productos[indiceIdProducto].listaPersonas[indicePersonaBorradaListaPersonaProducto] = Productos[indiceIdProducto].listaPersonas[indicePersonaBorradaListaPersonaProducto + 1];
+            for(let i = indicePersonaBorradaListaPersonaProducto ; i<Productos[indiceIdProducto].listaPersonas.length-1 ; i++){
+                Productos[indiceIdProducto].listaPersonas[i] = Productos[indiceIdProducto].listaPersonas[i + 1];
             }
             Productos[indiceIdProducto].listaPersonas = Productos[indiceIdProducto].listaPersonas.slice(0, Productos[indiceIdProducto].listaPersonas.length-1);
         }
@@ -342,8 +390,8 @@ function deleteObjeto(id){
             }
             indicePersonaBorradaListaPersonaEntidad--;
 
-            for(let i = indicePersonaBorradaListaPersonaEntidad ; i<Entidades[indiceIdEntidad].listaPersonas.length ; i++){
-                Entidades[indiceIdEntidad].listaPersonas[indicePersonaBorradaListaPersonaEntidad] = Entidades[indiceIdEntidad].listaPersonas[indicePersonaBorradaListaPersonaEntidad + 1];
+            for(let i = indicePersonaBorradaListaPersonaEntidad ; i<Entidades[indiceIdEntidad].listaPersonas.length-1 ; i++){
+                Entidades[indiceIdEntidad].listaPersonas[i] = Entidades[indiceIdEntidad].listaPersonas[i + 1];
             }
             Entidades[indiceIdEntidad].listaPersonas = Entidades[indiceIdEntidad].listaPersonas.slice(0, Entidades[indiceIdEntidad].listaPersonas.length-1);
         }
@@ -356,7 +404,8 @@ function deleteObjeto(id){
     //delete en 
     else{
         indice = buscarIndiceEntidad(idBuscador);
-        if(Entidades[indice].listaPersonas.length == 0){
+        if(logueado){//Entidades[indice].listaPersonas.length == 0
+            //Borrar de la listaEntidades de Producto, la entidad que se quiere borrar
             for(let producto = 0 ; producto<Entidades[indice].borrarRelasProductos.length ; producto++){
 
                 let indiceIdProducto = buscarIndiceProducto("'"+Entidades[indice].borrarRelasProductos[producto]+"'");
@@ -371,10 +420,30 @@ function deleteObjeto(id){
                 }
                 indiceEntidadBorradaListaEntidadProducto--;
     
-                for(let i = indiceEntidadBorradaListaEntidadProducto ; i<Productos[indiceIdProducto].listaEntidades.length ; i++){
-                    Productos[indiceIdProducto].listaEntidades[indiceEntidadBorradaListaEntidadProducto] = Productos[indiceIdProducto].listaEntidades[indiceEntidadBorradaListaEntidadProducto + 1];
+                for(let i = indiceEntidadBorradaListaEntidadProducto ; i<Productos[indiceIdProducto].listaEntidades.length-1 ; i++){
+                    Productos[indiceIdProducto].listaEntidades[i] = Productos[indiceIdProducto].listaEntidades[i + 1];
                 }
                 Productos[indiceIdProducto].listaEntidades = Productos[indiceIdProducto].listaEntidades.slice(0, Productos[indiceIdProducto].listaEntidades.length-1);
+            }
+            //Borrar de borarRelaEntidades de Persona, la entidad que se quiere borrar
+            for(let persona = 0 ; persona<Entidades[indice].listaPersonas.length ; persona++){
+
+                let indiceIdPersona = buscarIndicePersona("'"+Entidades[indice].listaPersonas[persona]+"'");
+                
+                let find = false;
+                let indiceEntidadBorradaBorrarRelasEntidades = 0;
+                while(!find){
+                    if(id == Personas[indiceIdPersona].borrarRelasEntidades[indiceEntidadBorradaBorrarRelasEntidades]){
+                        find = true;
+                    }
+                    indiceEntidadBorradaBorrarRelasEntidades++;
+                }
+                indiceEntidadBorradaBorrarRelasEntidades--;
+    
+                for(let i = indiceEntidadBorradaBorrarRelasEntidades ; i<Personas[indiceIdPersona].borrarRelasEntidades.length-1 ; i++){
+                    Personas[indiceIdPersona].borrarRelasEntidades[i] = Personas[indiceIdPersona].borrarRelasEntidades[i + 1];
+                }
+                Personas[indiceIdPersona].borrarRelasEntidades = Personas[indiceIdPersona].borrarRelasEntidades.slice(0, Personas[indiceIdPersona].borrarRelasEntidades.length-1);
             }
             //DELETE RELAS PERSONAS
             for(let i = indice ; i<Entidades.length-1 ; i++){
