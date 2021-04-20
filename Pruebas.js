@@ -434,7 +434,7 @@ function mostrarInfoObjeto(id){
     let dateDead = '';
     let imagen = '';
     let iframe = '';
-    let fin = '</div></div>';
+    let fin = '</div>';
 
     if(logueado){
         inicio = '<div id="inicioYeditar" class="row"><div class="col-sm-6" ><button type="button" class="btn btn-primary" style="margin-left: 70px;  margin-bottom: 5px;" onclick="cargarInicio()">INICIO</button></div><div class="col-sm-6 text-right"><button type="button" class="btn btn-info" style="margin-right: 110px; margin-bottom: 5px;" onclick="editarObjeto()">EDITAR</button></div></div>';
@@ -446,7 +446,7 @@ function mostrarInfoObjeto(id){
 
     if(tipoObjeto == "pr"){
         console.log("ES UN PRODUCTO");
-        console.log(idBuscador);
+
         let totalPersonas = '';//string con todas las urls image de personas
         let totalEntidades = '';//string con todas las urls image de entidades
 
@@ -455,15 +455,15 @@ function mostrarInfoObjeto(id){
         nombre = '<div><b>'+Productos[indice].name+'</b></div>';
         dateCreation = '<div>'+Productos[indice].dateCreation+'</div>';
         if(Productos[indice].dateDead == undefined){
-            dateDead = '<div>-Actualidad</div>';
+            dateDead = '<div>Actualidad</div>';
         }
         else{
-            dateDead = '<div>-'+Productos[indice].dateDead+'</div>';
+            dateDead = '<div>'+Productos[indice].dateDead+'</div>';
         }
         imagen = '<div><img src="'+Productos[indice].image+'" class="img-thumbnail" width="300px" height="300px"/></div></div>';
         iframe = '<div class="col-sm-8"><div><iframe src="'+Productos[indice].wiki+'" width="790px" height="400px"></iframe> </div></div></div>';
         //LISTAS DE PERSONAS y ENTIDADES
-        let iniPersonas = '<div class="row text-center"><div class="col-sm-6">';
+        let iniPersonas = '<div class="row text-center" style="margin-top: 5px;"><div class="col-sm-6">';
         let finPersonas = '</div>';
         if(Productos[indice].listaPersonas.length == 0){
             totalPersonas = iniPersonas + "NO HAY PERSONAS RELACIONADAS" + finPersonas;
@@ -473,59 +473,73 @@ function mostrarInfoObjeto(id){
                 iniPersonas += '<img src="'+Personas[buscarIndicePersona("'"+Productos[indice].listaPersonas[x]+"'")].image+'" width="50px" height="50px"/>';
             }
             totalPersonas = iniPersonas + finPersonas;
-            console.log(totalPersonas);
         }
-        
 
         let iniEntidades = '<div class="col-sm-6">';
-        let finEntidades = '</div></div>';
+        let finEntidades = '</div>';
         if(Productos[indice].listaEntidades.length == 0){
-            totalPersonas = iniEntidades + "NO HAY ENTIDADES RELACIONADAS" + finEntidades;
+            totalEntidades = iniEntidades + "NO HAY ENTIDADES RELACIONADAS" + finEntidades;
         }
         else{
             for(let x=0 ; x<Productos[indice].listaEntidades.length ; x++){
                 iniEntidades += '<img src="'+Entidades[buscarIndiceEntidad("'"+Productos[indice].listaEntidades[x]+"'")].image+'" width="50px" height="50px"/>';
             }
             totalEntidades = iniEntidades + finEntidades;
-            console.log(totalEntidades);
         }
-        total = inicio + ini + nombre + dateCreation + dateDead + imagen + iframe + totalPersonas + totalEntidades;
-        console.log(total);
+        total = inicio + ini + nombre + dateCreation + dateDead + imagen + iframe + totalPersonas + totalEntidades + fin;
     }
     else if(tipoObjeto == "pe"){
         console.log("ES UNA PERSONA");
+        let indice = buscarIndicePersona(idBuscador);
+        
+        nombre = '<div><b>'+Personas[indice].name+'</b></div>';
+        dateCreation = '<div>'+Personas[indice].dateCreation+'</div>';
+        if(Personas[indice].dateDead == undefined){
+            dateDead = '<div>Actualidad</div>';
+        }
+        else{
+            dateDead = '<div>'+Personas[indice].dateDead+'</div>';
+        }
+        imagen = '<div><img src="'+Personas[indice].image+'" class="img-thumbnail" width="300px" height="300px"/></div></div>';
+        iframe = '<div class="col-sm-8"><div><iframe src="'+Personas[indice].wiki+'" width="790px" height="400px"></iframe> </div></div>';
+        
+        total = inicio + ini + nombre + dateCreation + dateDead + imagen + iframe + fin;
     }
     else{
         console.log("ES UNA ENTIDAD");
+        let totalPersonas = '';//string con todas las urls image de personas
+
+        let indice = buscarIndiceEntidad(idBuscador);
+        
+        nombre = '<div><b>'+Entidades[indice].name+'</b></div>';
+        dateCreation = '<div>'+Entidades[indice].dateCreation+'</div>';
+        if(Entidades[indice].dateDead == undefined){
+            dateDead = '<div>Actualidad</div>';
+        }
+        else{
+            dateDead = '<div>'+Entidades[indice].dateDead+'</div>';
+        }
+        imagen = '<div><img src="'+Entidades[indice].image+'" class="img-thumbnail" width="300px" height="300px"/></div></div>';
+        iframe = '<div class="col-sm-8"><div><iframe src="'+Entidades[indice].wiki+'" width="790px" height="400px"></iframe> </div></div></div>';
+        //LISTAS DE PERSONAS
+        let iniPersonas = '<div class="row text-center" style="margin-top: 5px;"><div class="col-sm-6">';
+        let finPersonas = '</div>';
+        if(Entidades[indice].listaPersonas.length == 0){
+            totalPersonas = iniPersonas + "NO HAY PERSONAS RELACIONADAS" + finPersonas;
+        }
+        else{
+            for(let x=0 ; x<Entidades[indice].listaPersonas.length ; x++){
+                iniPersonas += '<img src="'+Personas[buscarIndicePersona("'"+Entidades[indice].listaPersonas[x]+"'")].image+'" width="50px" height="50px"/>';
+            }
+            totalPersonas = iniPersonas + finPersonas;
+        }
+
+        total = inicio + ini + nombre + dateCreation + dateDead + imagen + iframe + totalPersonas + fin;
     }
-    
     
     main.innerHTML = total;
 }
 
-
-
-//BORRAR
-function showDataPersonaForReader(){
-    let main = document.getElementById("main");
-    let inicio = '<div id="inicio"><button type="button" class="btn btn-primary" style="margin-left: 45px;" onclick="cargarInicio()">INICIO</button></div>';
-    let nombre = '';
-    let dateCreation = '';
-    let dateDead = '';
-    let imagen = '';
-    let iframe = '';
-}
-//BORRAR
-function showDataEntidadForReader(){
-    let main = document.getElementById("main");
-    let inicio = '<div id="inicio"><button type="button" class="btn btn-primary" style="margin-left: 45px;" onclick="cargarInicio()">INICIO</button></div>';
-    let nombre = '';
-    let dateCreation = '';
-    let dateDead = '';
-    let imagen = '';
-    let iframe = '';
-    let people = '';
-}
 
 //IMPLEMENTAR
 function editarObjeto(){
