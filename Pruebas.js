@@ -83,7 +83,9 @@ let Personas = [
         dateCreation : "29 de octubre de 1991",
         dateDead : undefined,
         image : "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Sir_Tim_Berners-Lee_%28cropped%29.jpg/220px-Sir_Tim_Berners-Lee_%28cropped%29.jpg",
-        wiki : "https://es.wikipedia.org/wiki/Tim_Berners-Lee"
+        wiki : "https://es.wikipedia.org/wiki/Tim_Berners-Lee",
+        borrarRelasProductos : ["pr1", "pr3", "pr5"],
+        borrarRelasEntidades : ["en2", "en3"]
     },
     {
         id : "'pe2'",
@@ -91,7 +93,9 @@ let Personas = [
         dateCreation : "11 de marzo de 1890",
         dateDead : "28 de junio de 1974",
         image : "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Vannevar_Bush_portrait.jpg/220px-Vannevar_Bush_portrait.jpg",
-        wiki : "https://es.wikipedia.org/wiki/Vannevar_Bush"
+        wiki : "https://es.wikipedia.org/wiki/Vannevar_Bush",
+        borrarRelasProductos : [],
+        borrarRelasEntidades : []
     }];
 let Entidades = [
     {
@@ -101,7 +105,8 @@ let Entidades = [
         dateDead : undefined,
         image : "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/IBM_logo.svg/245px-IBM_logo.svg.png",
         wiki : "https://es.wikipedia.org/wiki/IBM",
-        listaPersonas : []
+        listaPersonas : [],
+        borrarRelasProductos : ["pr4"]
     },
     {
         id : "'en2'",
@@ -110,7 +115,8 @@ let Entidades = [
         dateDead : undefined,
         image : "https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/CERN_logo.svg/160px-CERN_logo.svg.png",
         wiki : "https://es.wikipedia.org/wiki/Organizaci%C3%B3n_Europea_para_la_Investigaci%C3%B3n_Nuclear",
-        listaPersonas : ["pe1"]
+        listaPersonas : ["pe1"],
+        borrarRelasProductos : ["pr1", "pr3"]
     },
     {
         id : "'en3'",
@@ -119,7 +125,8 @@ let Entidades = [
         dateDead : undefined,
         image : "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/W3C%C2%AE_Icon.svg/245px-W3C%C2%AE_Icon.svg.png",
         wiki : "https://es.wikipedia.org/wiki/World_Wide_Web_Consortium",
-        listaPersonas : ["pe1"]
+        listaPersonas : ["pe1"],
+        borrarRelasProductos : ["pr3", "pr4", "pr5", "pr6"]
     }];
 
 
@@ -272,34 +279,112 @@ function crearBotonDelete(id){
 
     return del;
 }
-
+//BORRAR REALCIONES ENTRE OBJETOS
 function deleteObjeto(id){
-    let tipoObjeto = id.substring(0,2);
-    let idBuscador = "'"+id+"'";
-    let indice = 0;
+    let tipoObjeto = id.substring(0,2);// pr, pe, en
+    let idBuscador = "'"+id+"'";// 'pr', 'pe', 'en'
+    let indice = 0;//index del objeto
 
     if(tipoObjeto == "pr"){
+        
         indice = buscarIndiceProducto(idBuscador);
-        for(let i = indice ; i<Productos.length-1 ; i++){
-            Productos[i] = Productos[i+1]
+        if(Productos[indice].listaPersonas.length == 0 && Productos[indice].listaEntidades.length == 0){
+            for(let i = indice ; i<Productos.length-1 ; i++){
+                Productos[i] = Productos[i+1];
+            }
+            Productos = Productos.splice(0, Productos.length-1);
         }
-        Productos = Productos.splice(0, Productos.length-1);
+        else{
+            alert("El producto que intenta borrar aun tiene Personas y/o Entidades relacionas con el. Por favor, siga el siguiente orden de borrado: 1ºPersonas, 2ºEntidades, 3ºProductos");
+        }
+        
     }
+    //PERSONAS
     else if(tipoObjeto == "pe"){
         indice = buscarIndicePersona(idBuscador);
 
+        for(let producto = 0 ; producto<Personas[indice].borrarRelasProductos.length ; producto++){//Recorrer borrarRelasProductos
+            //pe1.borrarRelasProductos[producto] = pr1
+            //hay que ir a pr1.listaPersonas[x].push() x = pos de pe1 en listaPersonas
+            //Productos[0].listaPersonas[0].push()
+            //PROBLEMA: 
+
+            //indiceIdProducto = Productos[0], indiceIdProducto = 0
+            let indiceIdProducto = buscarIndiceProducto("'"+Personas[indice].borrarRelasProductos[producto]+"'");
+            
+            //x = pos de 'pe1' en listaPersonas
+            let find = false;
+            let indicePersonaBorradaListaPersonaProducto = 0;
+            while(!find){
+                if(id == Productos[indiceIdProducto].listaPersonas[indicePersonaBorradaListaPersonaProducto]){
+                    find = true;
+                }
+                indicePersonaBorradaListaPersonaProducto++;
+            }
+            indicePersonaBorradaListaPersonaProducto--;
+
+            for(let i = indicePersonaBorradaListaPersonaProducto ; i<Productos[indiceIdProducto].listaPersonas.length ; i++){
+                Productos[indiceIdProducto].listaPersonas[indicePersonaBorradaListaPersonaProducto] = Productos[indiceIdProducto].listaPersonas[indicePersonaBorradaListaPersonaProducto + 1];
+            }
+            Productos[indiceIdProducto].listaPersonas = Productos[indiceIdProducto].listaPersonas.slice(0, Productos[indiceIdProducto].listaPersonas.length-1);
+        }
+        //delete entidades relas
+        for(let entidad = 0 ; entidad<Personas[indice].borrarRelasEntidades.length ; entidad++){
+            let indiceIdEntidad = buscarIndiceEntidad("'"+Personas[indice].borrarRelasEntidades[entidad]+"'");
+            let find = false;
+            let indicePersonaBorradaListaPersonaEntidad = 0;
+
+            while(!find){
+                if(id == Entidades[indiceIdEntidad].listaPersonas[indicePersonaBorradaListaPersonaEntidad]){
+                    find = true;
+                }
+                indicePersonaBorradaListaPersonaEntidad++;
+            }
+            indicePersonaBorradaListaPersonaEntidad--;
+
+            for(let i = indicePersonaBorradaListaPersonaEntidad ; i<Entidades[indiceIdEntidad].listaPersonas.length ; i++){
+                Entidades[indiceIdEntidad].listaPersonas[indicePersonaBorradaListaPersonaEntidad] = Entidades[indiceIdEntidad].listaPersonas[indicePersonaBorradaListaPersonaEntidad + 1];
+            }
+            Entidades[indiceIdEntidad].listaPersonas = Entidades[indiceIdEntidad].listaPersonas.slice(0, Entidades[indiceIdEntidad].listaPersonas.length-1);
+        }
+        //DELETE RELAS PRODUCTOS Y RELAS ENTIDADES
         for(let i = indice ; i<Personas.length-1 ; i++){
-            Personas[i] = Personas[i+1]
+            Personas[i] = Personas[i+1];
         }
         Personas = Personas.splice(0, Personas.length-1);
     }
+    //delete en 
     else{
         indice = buscarIndiceEntidad(idBuscador);
+        if(Entidades[indice].listaPersonas.length == 0){
+            for(let producto = 0 ; producto<Entidades[indice].borrarRelasProductos.length ; producto++){
 
-        for(let i = indice ; i<Entidades.length-1 ; i++){
-            Entidades[i] = Entidades[i+1]
+                let indiceIdProducto = buscarIndiceProducto("'"+Entidades[indice].borrarRelasProductos[producto]+"'");
+                
+                let find = false;
+                let indiceEntidadBorradaListaEntidadProducto = 0;
+                while(!find){
+                    if(id == Productos[indiceIdProducto].listaEntidades[indiceEntidadBorradaListaEntidadProducto]){
+                        find = true;
+                    }
+                    indiceEntidadBorradaListaEntidadProducto++;
+                }
+                indiceEntidadBorradaListaEntidadProducto--;
+    
+                for(let i = indiceEntidadBorradaListaEntidadProducto ; i<Productos[indiceIdProducto].listaEntidades.length ; i++){
+                    Productos[indiceIdProducto].listaEntidades[indiceEntidadBorradaListaEntidadProducto] = Productos[indiceIdProducto].listaEntidades[indiceEntidadBorradaListaEntidadProducto + 1];
+                }
+                Productos[indiceIdProducto].listaEntidades = Productos[indiceIdProducto].listaEntidades.slice(0, Productos[indiceIdProducto].listaEntidades.length-1);
+            }
+            //DELETE RELAS PERSONAS
+            for(let i = indice ; i<Entidades.length-1 ; i++){
+                Entidades[i] = Entidades[i+1];
+            }
+            Entidades = Entidades.splice(0, Entidades.length-1);
         }
-        Entidades = Entidades.splice(0, Entidades.length-1);
+        else{
+            alert("La entidad que intenta borrar aun tiene Personas relacionas con ella. Por favor, siga el siguiente orden de borrado: 1ºPersonas, 2ºEntidades, 3ºProductos");
+        }
     }
     cargarInicio();
 }
@@ -330,6 +415,7 @@ function buscarIndiceEntidad(idBuscador){
     let encontrado = false;
     let indiceProducto = 0;
     while(!encontrado){
+        console.log(Entidades);
         if(Entidades[indiceProducto].id == idBuscador){
             encontrado = true;
         }
@@ -420,7 +506,7 @@ function addWriterOptions(){
         div.appendChild(botonDelete);
     }
 }
-//IMPLEMENTAR
+//TIENE COMENTARIOS
 function mostrarInfoObjeto(id){
     let tipoObjeto = id.substring(0,2);
     let idBuscador = "'"+id+"'";
