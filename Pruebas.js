@@ -131,7 +131,6 @@ let Entidades = [
 
 
 let logueado = false;
-let infoUsuarioLogueado = undefined;
 let logout = '<div id="cerrarSesion"><button type="button" class="btn btn-primary sm-2" style="margin-left: 45px;" onclick="addLogin()">LOGOUT</button></div>';
 let login = '<div id="iniciarSesion"><form class="form-inline" action="login"><label for="user" class="mr-sm-2" style="margin-left: 45px;">Usuario:</label><input id="user" type="text" name="user" class="form-control mr-sm-2" placeholder="Usuario"/><label for="pass" class="mr-sm-2">Contraseña:</label><input id="pass" type="password" name="password" class="form-control mr-sm-2" placeholder="Contraseña"/><button type="button" class="btn btn-primary sm-2" onclick="funcClickLogin()">LOGIN</button></form></div>';
 
@@ -142,7 +141,6 @@ function funcClickLogin(){
     while(usuIndex < users.length && !logueado){
         if(users[usuIndex].user == user.value && users[usuIndex].password == password.value){
             logueado = true;
-            infoUsuarioLogueado = users[usuIndex];
         }
         usuIndex++;
     }
@@ -169,7 +167,6 @@ function addLogin(){
     else{
         logueado = false;
     }
-    infoUsuarioLogueado = undefined;
 }
 
 function eliminarPermisosWriter(){
@@ -280,11 +277,11 @@ function crearBotonDelete(id){
 
     return del;
 }
-//BORRAR REALCIONES ENTRE OBJETOS Y TIENE COMENTARIOS
+
 function deleteObjeto(id){
-    let tipoObjeto = id.substring(0,2);// pr, pe, en
-    let idBuscador = "'"+id+"'";// 'pr', 'pe', 'en'
-    let indice = 0;//index del objeto
+    let tipoObjeto = id.substring(0,2);
+    let idBuscador = "'"+id+"'";
+    let indice = 0;
 
     if(tipoObjeto == "pr"){
         
@@ -311,8 +308,6 @@ function deleteObjeto(id){
             Personas[indiceIdPersona].borrarRelasProductos = Personas[indiceIdPersona].borrarRelasProductos.slice(0, Personas[indiceIdPersona].borrarRelasProductos.length-1);
         }
         
-        //Borrar de borarRelaProductos de Entidad, el Producto que se quiere borrar
-        console.log("Borrando el producto de Entidad");
         for(let entidad = 0 ; entidad<Productos[indice].listaEntidades.length ; entidad++){
 
             let indiceIdEntidad = buscarIndiceEntidad("'"+Productos[indice].listaEntidades[entidad]+"'");
@@ -338,20 +333,12 @@ function deleteObjeto(id){
         }
         Productos = Productos.splice(0, Productos.length-1);
     }
-    //PERSONAS
     else if(tipoObjeto == "pe"){
         indice = buscarIndicePersona(idBuscador);
         console.log("Borrando la persona de producto");
-        for(let producto = 0 ; producto<Personas[indice].borrarRelasProductos.length ; producto++){//Recorrer borrarRelasProductos
-            //pe1.borrarRelasProductos[producto] = pr1
-            //hay que ir a pr1.listaPersonas[x].push() x = pos de pe1 en listaPersonas
-            //Productos[0].listaPersonas[0].push()
-            //PROBLEMA: 
-
-            //indiceIdProducto = Productos[0], indiceIdProducto = 0
+        for(let producto = 0 ; producto<Personas[indice].borrarRelasProductos.length ; producto++){
             let indiceIdProducto = buscarIndiceProducto("'"+Personas[indice].borrarRelasProductos[producto]+"'");
             
-            //x = pos de 'pe1' en listaPersonas
             let find = false;
             let indicePersonaBorradaListaPersonaProducto = 0;
             while(!find){
@@ -367,7 +354,6 @@ function deleteObjeto(id){
             }
             Productos[indiceIdProducto].listaPersonas = Productos[indiceIdProducto].listaPersonas.slice(0, Productos[indiceIdProducto].listaPersonas.length-1);
         }
-        //delete entidades relas
         for(let entidad = 0 ; entidad<Personas[indice].borrarRelasEntidades.length ; entidad++){
             let indiceIdEntidad = buscarIndiceEntidad("'"+Personas[indice].borrarRelasEntidades[entidad]+"'");
             let find = false;
@@ -392,7 +378,6 @@ function deleteObjeto(id){
         }
         Personas = Personas.splice(0, Personas.length-1);
     }
-    //delete en 
     else{
         indice = buscarIndiceEntidad(idBuscador);
         for(let producto = 0 ; producto<Entidades[indice].borrarRelasProductos.length ; producto++){
@@ -414,7 +399,6 @@ function deleteObjeto(id){
             }
             Productos[indiceIdProducto].listaEntidades = Productos[indiceIdProducto].listaEntidades.slice(0, Productos[indiceIdProducto].listaEntidades.length-1);
         }
-        //Borrar de borarRelaEntidades de Persona, la entidad que se quiere borrar
         for(let persona = 0 ; persona<Entidades[indice].listaPersonas.length ; persona++){
 
             let indiceIdPersona = buscarIndicePersona("'"+Entidades[indice].listaPersonas[persona]+"'");
@@ -434,7 +418,6 @@ function deleteObjeto(id){
             }
             Personas[indiceIdPersona].borrarRelasEntidades = Personas[indiceIdPersona].borrarRelasEntidades.slice(0, Personas[indiceIdPersona].borrarRelasEntidades.length-1);
         }
-        //DELETE RELAS PERSONAS
         for(let i = indice ; i<Entidades.length-1 ; i++){
             Entidades[i] = Entidades[i+1];
         }
@@ -469,7 +452,6 @@ function buscarIndiceEntidad(idBuscador){
     let encontrado = false;
     let indiceEntidad = 0;
     while(!encontrado){
-        console.log(Entidades);
         if(Entidades[indiceEntidad].id == idBuscador){
             encontrado = true;
         }
@@ -541,7 +523,6 @@ function addWriterOptions(){
     tr.appendChild(td3);
 
     tbody.appendChild(tr);
-
     for(let index=0 ; index<Productos.length ; index++){
         let botonDelete = crearBotonDelete(Productos[index].id);
         
@@ -566,8 +547,8 @@ function addWriterOptions(){
         div.appendChild(botonDelete);
     }
 }
-//TIENE COMENTARIOS
-function mostrarInfoObjeto(id){
+
+function mostrarInfoObjeto(id){ 
     let tipoObjeto = id.substring(0,2);
     let idBuscador = "'"+id+"'";
     let total = '';
@@ -583,7 +564,7 @@ function mostrarInfoObjeto(id){
     let fin = '</div>';
 
     if(logueado){
-        inicio = '<div id="inicioYeditar" class="row"><div class="col-sm-6" ><button type="button" class="btn btn-primary" style="margin-left: 70px;  margin-bottom: 5px;" onclick="cargarInicio()">INICIO</button></div><div class="col-sm-6 text-right"><button type="button" class="btn btn-info" style="margin-right: 110px; margin-bottom: 5px;" onclick="editarObjeto()">EDITAR</button></div></div>';
+        inicio = '<div id="inicioYeditar" class="row"><div class="col-sm-6" ><button type="button" class="btn btn-primary" style="margin-left: 70px;  margin-bottom: 5px;" onclick="cargarInicio()">INICIO</button></div><div class="col-sm-6 text-right"><button type="button" class="btn btn-info" style="margin-right: 110px; margin-bottom: 5px;" onclick="editarObjeto('+idBuscador+')">EDITAR</button></div></div>';
     }
     else{
         inicio = '<div id="inicio"><button type="button" class="btn btn-primary" style="margin-left: 45px;" onclick="cargarInicio()">INICIO</button></div>';
@@ -593,8 +574,8 @@ function mostrarInfoObjeto(id){
     if(tipoObjeto == "pr"){
         console.log("ES UN PRODUCTO");
 
-        let totalPersonas = '';//string con todas las urls image de personas
-        let totalEntidades = '';//string con todas las urls image de entidades
+        let totalPersonas = '';
+        let totalEntidades = '';
 
         let indice = buscarIndiceProducto(idBuscador);
         
@@ -608,7 +589,7 @@ function mostrarInfoObjeto(id){
         }
         imagen = '<div><img src="'+Productos[indice].image+'" class="img-thumbnail" width="300px" height="300px"/></div></div>';
         iframe = '<div class="col-sm-8"><div><iframe src="'+Productos[indice].wiki+'" width="790px" height="400px"></iframe> </div></div></div>';
-        //LISTAS DE PERSONAS y ENTIDADES
+
         let iniPersonas = '<div class="row text-center" style="margin-top: 5px;"><div class="col-sm-6">';
         let finPersonas = '</div>';
         if(Productos[indice].listaPersonas.length == 0){
@@ -653,7 +634,7 @@ function mostrarInfoObjeto(id){
     }
     else{
         console.log("ES UNA ENTIDAD");
-        let totalPersonas = '';//string con todas las urls image de personas
+        let totalPersonas = '';
 
         let indice = buscarIndiceEntidad(idBuscador);
         
@@ -667,7 +648,6 @@ function mostrarInfoObjeto(id){
         }
         imagen = '<div><img src="'+Entidades[indice].image+'" class="img-thumbnail" width="300px" height="300px"/></div></div>';
         iframe = '<div class="col-sm-8"><div><iframe src="'+Entidades[indice].wiki+'" width="790px" height="400px"></iframe> </div></div></div>';
-        //LISTAS DE PERSONAS
         let iniPersonas = '<div class="row text-center" style="margin-top: 5px;"><div class="col-sm-6">';
         let finPersonas = '</div>';
         if(Entidades[indice].listaPersonas.length == 0){
@@ -693,9 +673,8 @@ function createObjeto(idTipoObjeto){
 
 
     if(idTipoObjeto == 'pr'){
-        let nextId = "'" + idTipoObjeto + (Productos.length+1) + "'";//pr7
+        let nextId = "'" + idTipoObjeto + (parseInt(Productos[Productos.length-1].id.substring(3,4)) + 1) + "'";
         
-        //input name, dateCreation, dateDead, image, wiki
         let formularioIni = '<div id="formularioCreate" style="margin-left: 45px;"><div class="form-group"><label for="name">Nombre del Producto:</label><input id="name" type="text" class="form-control" placeholder="Nombre"/></div><div class="form-group"><label for="dateCreation">Fecha de creación:</label><input id="dateCreation" type="text" class="form-control" placeholder="Fecha"/></div><div class="form-group"><label for="dateDead">Fecha de utilidad(Opcional):</label><input id="dateDead" type="text" class="form-control" placeholder="Fecha"/></div><div class="form-group"><label for="img">Icono del Producto:</label><input id="img" type="text" class="form-control" placeholder="URL del icono del Producto"/></div><div class="form-group"><label for="wiki">URL WIKI:</label><input id="wiki" type="text" class="form-control" placeholder="URL del Producto, preferiblemente WIKIPEDIA"/></div>';
         let formularioFin = '<button type="button" class="btn btn-warning sm-2" onclick="funcClickCrear('+nextId+')">CREAR</button></div>';
         let labelsSelect = '';
@@ -710,7 +689,7 @@ function createObjeto(idTipoObjeto){
         total = botonCancelar + formularioIni + labelsSelect + formularioFin;
     }
     else if(idTipoObjeto == 'pe'){
-        let nextId = "'" + idTipoObjeto + (Personas.length+1) + "'";//pe3
+        let nextId = "'" + idTipoObjeto + (parseInt(Personas[Personas.length-1].id.substring(3,4)) + 1) + "'";
 
         let formularioIni = '<div id="formularioCreate" style="margin-left: 45px;"><div class="form-group"><label for="name">Nombre de la Persona:</label><input id="name" type="text" class="form-control" placeholder="Nombre"/></div><div class="form-group"><label for="dateCreation">Fecha de nacimiento:</label><input id="dateCreation" type="text" class="form-control" placeholder="Fecha"/></div><div class="form-group"><label for="dateDead">Fecha de defunción(Opcional):</label><input id="dateDead" type="text" class="form-control" placeholder="Fecha"/></div><div class="form-group"><label for="img">Foto de la Persona:</label><input id="img" type="text" class="form-control" placeholder="URL de una foto de la Persona"/></div><div class="form-group"><label for="wiki">URL WIKI:</label><input id="wiki" type="text" class="form-control" placeholder="URL de la Persona, preferiblemente WIKIPEDIA"/></div>';
         let formularioFin = '<button type="button" class="btn btn-warning sm-2" onclick="funcClickCrear('+nextId+')">CREAR</button></div>';
@@ -718,7 +697,7 @@ function createObjeto(idTipoObjeto){
         total = botonCancelar + formularioIni + formularioFin;
     }
     else{
-        let nextId = "'" + idTipoObjeto + (Entidades.length+1) + "'";//en4
+        let nextId = "'" + idTipoObjeto + (parseInt(Entidades[Entidades.length-1].id.substring(3,4)) + 1) + "'";
         
         let formularioIni = '<div id="formularioCreate" style="margin-left: 45px;"><div class="form-group"><label for="name">Nombre de la Entidad:</label><input id="name" type="text" class="form-control" placeholder="Nombre"/></div><div class="form-group"><label for="dateCreation">Fecha de creación:</label><input id="dateCreation" type="text" class="form-control" placeholder="Fecha"/></div><div class="form-group"><label for="dateDead">Fecha de cierre(Opcional):</label><input id="dateDead" type="text" class="form-control" placeholder="Fecha"/></div><div class="form-group"><label for="img">Logo de la Entidad:</label><input id="img" type="text" class="form-control" placeholder="URL del Logo de la Entidad"/></div><div class="form-group"><label for="wiki">URL WIKI:</label><input id="wiki" type="text" class="form-control" placeholder="URL de la Entidad, preferiblemente WIKIPEDIA"/></div>';
         let formularioFin = '<button type="button" class="btn btn-warning sm-2" onclick="funcClickCrear('+nextId+')">CREAR</button></div>';
@@ -744,8 +723,8 @@ function crearOptions(objetos){
     }
     return totalOptions;
 }
-//Tiene comentarios
-function funcClickCrear(nextId){//pex, prx, enx
+
+function funcClickCrear(nextId){
     let idTipoObjetonextId = nextId.substring(0,2);
     
     let id = "'" + nextId + "'";
@@ -775,31 +754,27 @@ function funcClickCrear(nextId){//pex, prx, enx
                     listaEntidades.push(option.value.substring(2,5));
                 }
             }
-
-            let newProducto = new Producto(id,name,dateCreation,dateDead,urlImg,wiki,listaPersonas,listaEntidades);
+            let newProducto = {id,name,dateCreation,dateDead,urlImg,wiki,listaPersonas,listaEntidades};
             Productos.push(newProducto);
             alert("NUEVO PRODUCTO CREADO");
 
-            for(let persona = 0 ; persona<listaPersonas.length ; persona++){//listaPersonas
+            for(let persona = 0 ; persona<listaPersonas.length ; persona++){
                 if(("'" + listaPersonas[persona] + "'") == Personas[buscarIndicePersona("'" + listaPersonas[persona] + "'")].id){
                     Personas[buscarIndicePersona("'" + listaPersonas[persona] + "'")].borrarRelasProductos.push(nextId);
                 }
             }
-            //alert(Personas[0].borrarRelasProductos);
 
-            for(let entidad = 0 ; entidad<listaEntidades.length ; entidad++){//listaPersonas
+            for(let entidad = 0 ; entidad<listaEntidades.length ; entidad++){
                 if(("'" + listaEntidades[entidad] + "'") == Entidades[buscarIndiceEntidad("'" + listaEntidades[entidad] + "'")].id){
                     Entidades[buscarIndiceEntidad("'" + listaEntidades[entidad] + "'")].borrarRelasProductos.push(nextId);
                 }
             }
-            //alert(Entidades[0].borrarRelasProductos);
-
         }
         else if(idTipoObjetonextId == 'pe'){
             let borrarRelasProductos = [];
             let borrarRelasEntidades = [];
-
-            let newPersona = new Persona(id,name,dateCreation,dateDead,urlImg,wiki,borrarRelasProductos,borrarRelasEntidades);
+            
+            let newPersona = {id,name,dateCreation,dateDead,urlImg,wiki,borrarRelasProductos,borrarRelasEntidades};
             Personas.push(newPersona);
             alert("NUEVA PERSONA CREADA");
         }
@@ -812,61 +787,310 @@ function funcClickCrear(nextId){//pex, prx, enx
                     listaPersonas.push(option.value.substring(2,5));
                 }
             }
-
-            let newEntidad = new Entidad(id,name,dateCreation,dateDead,urlImg,wiki,listaPersonas,borrarRelasProductos);
+            
+            let newEntidad = {id,name,dateCreation,dateDead,urlImg,wiki,listaPersonas,borrarRelasProductos};
             Entidades.push(newEntidad);
             alert("NUEVA ENTIDAD CREADA");
 
-            for(let persona = 0 ; persona<listaPersonas.length ; persona++){//listaPersonas
+            for(let persona = 0 ; persona<listaPersonas.length ; persona++){
                 if(("'" + listaPersonas[persona] + "'") == Personas[buscarIndicePersona("'" + listaPersonas[persona] + "'")].id){
                     Personas[buscarIndicePersona("'" + listaPersonas[persona] + "'")].borrarRelasEntidades.push(nextId);
                 }
             }
-            //alert(Personas[0].borrarRelasEntidades);
         }
         cargarInicio();
     }
     
 }
 
-function Producto(id, name, dateCreation, dateDead, image, wiki, listaPersonas, listaEntidades){
-    this.id = id;
-    this.name = name;
-    this.dateCreation = dateCreation;
-    this.dateDead = dateDead;
-    this.image = image;
-    this.wiki = wiki;
-    this.listaPersonas = listaPersonas;
-    this.listaEntidades = listaEntidades;
+function editarObjeto(idObjetoAEditar){
+    let comillasIdObjetoAEditar = "'" + idObjetoAEditar + "'";
+    let tipoObjeto = idObjetoAEditar.substring(0,2);
+
+    let botonCancelar = '<div id="cancelarCreate"><button type="button" class="btn btn-danger" style="margin-left: 45px; margin-bottom: 10px;" onclick="mostrarInfoObjeto('+comillasIdObjetoAEditar+')">CANCEL</button></div>';
+    let main = document.getElementById("main");
+    let total = '';
+
+    if(tipoObjeto == 'pr'){
+        let formularioIni = '<div id="formularioEdit" style="margin-left: 45px;"><div class="form-group"><label for="name">Nombre del Producto:</label><input id="name" type="text" class="form-control" placeholder="Nombre"/></div><div class="form-group"><label for="dateCreation">Fecha de creación:</label><input id="dateCreation" type="text" class="form-control" placeholder="Fecha"/></div><div class="form-group"><label for="dateDead">Fecha de utilidad(Opcional):</label><input id="dateDead" type="text" class="form-control" placeholder="Fecha"/></div><div class="form-group"><label for="img">Icono del Producto:</label><input id="img" type="text" class="form-control" placeholder="URL del icono del Producto"/></div><div class="form-group"><label for="wiki">URL WIKI:</label><input id="wiki" type="text" class="form-control" placeholder="URL del Producto, preferiblemente WIKIPEDIA"/></div>';
+        let formularioFin = '<button type="button" class="btn btn-info" onclick="comprobarCamposAEditar('+comillasIdObjetoAEditar+')">EDITAR</button></div>';
+        let labelsSelect = '';
+        let labelSelectFin = '</select></div>';
+
+        let optionsListaPersonasAñadir = '<div class="form-group"><label for="listaPersonasAñadir">Seleccione las Personas de las que desea añadir una relación con el producto (Mantega pulsado CTRL para seleccionar más de una):</label><select id="listaPersonasAñadir" multiple class="form-control">';
+        let optionsListaPersonasEliminar = '<div class="form-group"><label for="listaPersonasEliminar">Seleccione las Personas de las que desea eliminar una relación con el producto (Mantega pulsado CTRL para seleccionar más de una):</label><select id="listaPersonasEliminar" multiple class="form-control">';
+        let optionsListaEntidadesAñadir = '<div class="form-group"><label for="listaEntidadesAñadir">Seleccione las Entidades a las que desea añadir una relación con el producto (Mantega pulsado CTRL para seleccionar más de una):</label><select id="listaEntidadesAñadir" multiple class="form-control">';
+        let optionsListaEntidadesEliminar = '<div class="form-group"><label for="listaEntidadesEliminar">Seleccione las Entidades a las que desea eliminar una relación con el producto (Mantega pulsado CTRL para seleccionar más de una):</label><select id="listaEntidadesEliminar" multiple class="form-control">';
+
+        let añadirOEliminar = true;
+        optionsListaPersonasAñadir += (crearOptionsEditar(Productos[buscarIndiceProducto(comillasIdObjetoAEditar)].listaPersonas, Personas, añadirOEliminar) + labelSelectFin);
+        optionsListaPersonasEliminar += (crearOptionsEditar(Productos[buscarIndiceProducto(comillasIdObjetoAEditar)].listaPersonas, Personas, !añadirOEliminar) + labelSelectFin);
+        
+        optionsListaEntidadesAñadir += (crearOptionsEditar(Productos[buscarIndiceProducto(comillasIdObjetoAEditar)].listaEntidades, Entidades, añadirOEliminar) + labelSelectFin);
+        optionsListaEntidadesEliminar += (crearOptionsEditar(Productos[buscarIndiceProducto(comillasIdObjetoAEditar)].listaEntidades, Entidades, !añadirOEliminar) + labelSelectFin);
+
+        labelsSelect += (optionsListaPersonasAñadir + optionsListaPersonasEliminar + optionsListaEntidadesAñadir + optionsListaEntidadesEliminar);
+
+        total = botonCancelar + formularioIni + labelsSelect + formularioFin;
+    }
+    else if(tipoObjeto == 'pe'){
+        let formularioIni = '<div id="formularioEdit" style="margin-left: 45px;"><div class="form-group"><label for="name">Nombre de la Persona:</label><input id="name" type="text" class="form-control" placeholder="Nombre"/></div><div class="form-group"><label for="dateCreation">Fecha de nacimiento:</label><input id="dateCreation" type="text" class="form-control" placeholder="Fecha"/></div><div class="form-group"><label for="dateDead">Fecha de defunción(Opcional):</label><input id="dateDead" type="text" class="form-control" placeholder="Fecha"/></div><div class="form-group"><label for="img">Foto de la Persona:</label><input id="img" type="text" class="form-control" placeholder="URL de una foto de la Persona"/></div><div class="form-group"><label for="wiki">URL WIKI:</label><input id="wiki" type="text" class="form-control" placeholder="URL de la Persona, preferiblemente WIKIPEDIA"/></div>';
+        let formularioFin = '<button type="button" class="btn btn-info" onclick="comprobarCamposAEditar('+comillasIdObjetoAEditar+')">EDITAR</button></div>';
+
+        total = botonCancelar + formularioIni + formularioFin;
+    }
+    else{
+        let formularioIni = '<div id="formularioEdit" style="margin-left: 45px;"><div class="form-group"><label for="name">Nombre de la Entidad:</label><input id="name" type="text" class="form-control" placeholder="Nombre"/></div><div class="form-group"><label for="dateCreation">Fecha de creación:</label><input id="dateCreation" type="text" class="form-control" placeholder="Fecha"/></div><div class="form-group"><label for="dateDead">Fecha de cierre(Opcional):</label><input id="dateDead" type="text" class="form-control" placeholder="Fecha"/></div><div class="form-group"><label for="img">Logo de la Entidad:</label><input id="img" type="text" class="form-control" placeholder="URL del Logo de la Entidad"/></div><div class="form-group"><label for="wiki">URL WIKI:</label><input id="wiki" type="text" class="form-control" placeholder="URL de la Entidad, preferiblemente WIKIPEDIA"/></div>';
+        let formularioFin = '<button type="button" class="btn btn-info" onclick="comprobarCamposAEditar('+comillasIdObjetoAEditar+')">EDITAR</button></div>';
+        let labelsSelect = '';
+        let labelSelectFin = '</select></div>';
+
+        let optionsListaPersonasAñadir = '<div class="form-group"><label for="listaPersonasAñadir">Seleccione las Personas de las que desea añadir una relación con la entidad (Mantega pulsado CTRL para seleccionar más de una):</label><select id="listaPersonasAñadir" multiple class="form-control">';
+        let optionsListaPersonasEliminar = '<div class="form-group"><label for="listaPersonasEliminar">Seleccione las Personas de las que desea eliminar una relación con la entidad (Mantega pulsado CTRL para seleccionar más de una):</label><select id="listaPersonasEliminar" multiple class="form-control">';
+
+        let añadirOEliminar = true;
+        optionsListaPersonasAñadir += (crearOptionsEditar(Entidades[buscarIndiceEntidad(comillasIdObjetoAEditar)].listaPersonas, Personas, añadirOEliminar) + labelSelectFin);
+        optionsListaPersonasEliminar += (crearOptionsEditar(Entidades[buscarIndiceEntidad(comillasIdObjetoAEditar)].listaPersonas, Personas, !añadirOEliminar) + labelSelectFin);
+        
+        labelsSelect += (optionsListaPersonasAñadir + optionsListaPersonasEliminar);
+
+        total = botonCancelar + formularioIni + labelsSelect + formularioFin;
+    }
+
+    main.innerHTML = total;
 }
 
-function Persona(id, name, dateCreation, dateDead, image, wiki, borrarRelasProductos, borrarRelasEntidades){
-    this.id = id;
-    this.name = name;
-    this.dateCreation = dateCreation;
-    this.dateDead = dateDead;
-    this.image = image;
-    this.wiki = wiki;
-    this.borrarRelasProductos = borrarRelasProductos;
-    this.borrarRelasEntidades = borrarRelasEntidades;
+function comprobarCamposAEditar(idDelObjeto){
+
+    let idTipoObjetoAEditarId = idDelObjeto.substring(0,2);
+
+    let name = document.getElementById('name').value;
+    let dateCreation = document.getElementById('dateCreation').value;
+    let dateDead = document.getElementById('dateDead').value;
+    let urlImg = document.getElementById('img').value;
+    let wiki = document.getElementById('wiki').value;
+
+    if(idTipoObjetoAEditarId == 'pr'){
+        let listaPersonasAñadir = [];
+        let listaPersonasEliminar = [];
+        let listaEntidadesAñadir = [];
+        let listaEntidadesEliminar = [];
+        
+        for(let option of document.getElementById('listaPersonasAñadir').options){
+            if(option.selected){
+                listaPersonasAñadir.push(option.value.substring(2,5));
+            }
+        }
+        for(let option of document.getElementById('listaPersonasEliminar').options){
+            if(option.selected){
+                listaPersonasEliminar.push(option.value.substring(2,5));
+            }
+        }
+        for(let option of document.getElementById('listaEntidadesAñadir').options){
+            if(option.selected){
+                listaEntidadesAñadir.push(option.value.substring(2,5));
+            }
+        }
+        for(let option of document.getElementById('listaEntidadesEliminar').options){
+            if(option.selected){
+                listaEntidadesEliminar.push(option.value.substring(2,5));
+            }
+        }
+ 
+        if(name.length != 0){
+            Productos[buscarIndiceProducto("'" + idDelObjeto + "'")].name = name;
+        }
+        if(dateCreation.length != 0){
+            Productos[buscarIndiceProducto("'" + idDelObjeto + "'")].dateCreation = dateCreation;
+        }
+        if(dateDead.length != 0){
+            Productos[buscarIndiceProducto("'" + idDelObjeto + "'")].dateDead = dateDead;
+        }
+        if(urlImg.length != 0){
+            Productos[buscarIndiceProducto("'" + idDelObjeto + "'")].image = urlImg;
+        }
+        if(wiki.length != 0){
+            Productos[buscarIndiceProducto("'" + idDelObjeto + "'")].wiki = wiki;
+        }
+        if(listaPersonasEliminar.length != 0){
+            for(let persona = 0 ; persona<listaPersonasEliminar ; persona++){
+                if(("'" + listaPersonasEliminar[persona] + "'") == Personas[buscarIndicePersona("'" + listaPersonasEliminar[persona] + "'")].id){
+                    for(let i = persona ; i<Personas[buscarIndicePersona("'" + listaPersonasEliminar[persona] + "'")].borrarRelasProductos.length-1 ; i++){
+                        Personas[buscarIndicePersona("'" + listaPersonasEliminar[persona] + "'")].borrarRelasProductos[i] = Personas[buscarIndicePersona("'" + listaPersonasEliminar[persona] + "'")].borrarRelasProductos[i+1];
+                    }
+                    Personas[buscarIndicePersona("'" + listaPersonasEliminar[persona] + "'")].borrarRelasProductos = Personas[buscarIndicePersona("'" + listaPersonasEliminar[persona] + "'")].borrarRelasProductos.slice(0,Personas[buscarIndicePersona("'" + listaPersonasEliminar[persona] + "'")].borrarRelasProductos.length-1);
+                }
+            }
+            for(let personaDELETE = 0 ; personaDELETE<listaPersonasEliminar.length ; personaDELETE++){
+                for(let personaListaPersonas = 0 ; personaListaPersonas<Productos[buscarIndiceProducto("'" + idDelObjeto + "'")].listaPersonas.length ; personaListaPersonas++){
+                    if(listaPersonasEliminar[personaDELETE] ==  Productos[buscarIndiceProducto("'" + idDelObjeto + "'")].listaPersonas[personaListaPersonas]){
+                        
+                        for(let i = personaListaPersonas ; i<Productos[buscarIndiceProducto("'" + idDelObjeto + "'")].listaPersonas.length-1 ; i++){
+                            Productos[buscarIndiceProducto("'" + idDelObjeto + "'")].listaPersonas[i] = Productos[buscarIndiceProducto("'" + idDelObjeto + "'")].listaPersonas[i+1];
+                        }
+                        Productos[buscarIndiceProducto("'" + idDelObjeto + "'")].listaPersonas = Productos[buscarIndiceProducto("'" + idDelObjeto + "'")].listaPersonas.slice(0,Productos[buscarIndiceProducto("'" + idDelObjeto + "'")].listaPersonas.length-1);
+                    }
+                }
+            }
+        }
+        if(listaPersonasAñadir.length != 0){
+            for(let persona = 0 ; persona<listaPersonasAñadir.length ; persona++){
+                if(("'" + listaPersonasAñadir[persona] + "'") == Personas[buscarIndicePersona("'" + listaPersonasAñadir[persona] + "'")].id){
+                    Personas[buscarIndicePersona("'" + listaPersonasAñadir[persona] + "'")].borrarRelasProductos.push(idDelObjeto);
+                }
+                Productos[buscarIndiceProducto("'" + idDelObjeto + "'")].listaPersonas.push(listaPersonasAñadir[persona]);
+            }
+        }
+        if(listaEntidadesEliminar.length != 0){
+            for(let entidad = 0 ; entidad<listaEntidadesEliminar ; entidad++){
+                if(("'" + listaEntidadesEliminar[entidad] + "'") == Entidades[buscarIndiceEntidad("'" + listaEntidadesEliminar[entidad] + "'")].id){
+                    for(let i = entidad ; i<Entidades[buscarIndiceEntidad("'" + listaEntidadesEliminar[entidad] + "'")].borrarRelasProductos.length-1 ; i++){
+                        Entidades[buscarIndiceEntidad("'" + listaEntidadesEliminar[entidad] + "'")].borrarRelasProductos[i] = Entidades[buscarIndiceEntidad("'" + listaEntidadesEliminar[entidad] + "'")].borrarRelasProductos[i+1];
+                    }
+                    Entidades[buscarIndiceEntidad("'" + listaEntidadesEliminar[entidad] + "'")].borrarRelasProductos = Entidades[buscarIndiceEntidad("'" + listaEntidadesEliminar[entidad] + "'")].borrarRelasProductos.slice(0,Entidades[buscarIndiceEntidad("'" + listaEntidadesEliminar[entidad] + "'")].borrarRelasProductos.length-1);
+                }
+            }
+            for(let entidadDELETE = 0 ; entidadDELETE<listaEntidadesEliminar.length ; entidadDELETE++){
+                for(let entidadListaEntidades = 0 ; entidadListaEntidades<Productos[buscarIndiceProducto("'" + idDelObjeto + "'")].listaEntidades.length ; entidadListaEntidades++){
+                    if(listaEntidadesEliminar[entidadDELETE] ==  Productos[buscarIndiceProducto("'" + idDelObjeto + "'")].listaEntidades[entidadListaEntidades]){
+                        
+                        for(let i = entidadListaEntidades ; i<Productos[buscarIndiceProducto("'" + idDelObjeto + "'")].listaEntidades.length-1 ; i++){
+                            Productos[buscarIndiceProducto("'" + idDelObjeto + "'")].listaEntidades[i] = Productos[buscarIndiceProducto("'" + idDelObjeto + "'")].listaEntidades[i+1];
+                        }
+                        Productos[buscarIndiceProducto("'" + idDelObjeto + "'")].listaEntidades = Productos[buscarIndiceProducto("'" + idDelObjeto + "'")].listaEntidades.slice(0,Productos[buscarIndiceProducto("'" + idDelObjeto + "'")].listaEntidades.length-1);
+                    }
+                }
+            }
+        }
+        if(listaEntidadesAñadir.length != 0){
+            for(let entidad = 0 ; entidad<listaEntidadesAñadir.length ; entidad++){
+                if(("'" + listaEntidadesAñadir[entidad] + "'") == Entidades[buscarIndiceEntidad("'" + listaEntidadesAñadir[entidad] + "'")].id){
+                    Entidades[buscarIndiceEntidad("'" + listaEntidadesAñadir[entidad] + "'")].borrarRelasProductos.push(idDelObjeto);
+                }
+                Productos[buscarIndiceProducto("'" + idDelObjeto + "'")].listaEntidades.push(listaEntidadesAñadir[entidad]);
+            }
+        }
+
+        alert("SE HA MODIFICADO EL PRODUCTO");
+
+    }
+    else if(idTipoObjetoAEditarId == 'pe'){
+
+        if(name.length != 0){
+            Personas[buscarIndicePersona("'" + idDelObjeto + "'")].name = name;
+        }
+        if(dateCreation.length != 0){
+            Personas[buscarIndicePersona("'" + idDelObjeto + "'")].dateCreation = dateCreation;
+        }
+        if(dateDead.length != 0){
+            Personas[buscarIndicePersona("'" + idDelObjeto + "'")].dateDead = dateDead;
+        }
+        if(urlImg.length != 0){
+            Personas[buscarIndicePersona("'" + idDelObjeto + "'")].image = urlImg;
+        }
+        if(wiki.length != 0){
+            Personas[buscarIndicePersona("'" + idDelObjeto + "'")].wiki = wiki;
+        }
+        alert("SE HA MODIFICADO LA PERSONA");
+    }
+    else{
+        let listaPersonasAñadir = [];
+        let listaPersonasEliminar = [];
+
+        for(let option of document.getElementById('listaPersonasAñadir').options){
+            if(option.selected){
+                listaPersonasAñadir.push(option.value.substring(2,5));
+            }
+        }
+        for(let option of document.getElementById('listaPersonasEliminar').options){
+            if(option.selected){
+                listaPersonasEliminar.push(option.value.substring(2,5));
+            }
+        }
+
+        if(name.length != 0){
+            Entidades[buscarIndiceEntidad("'" + idDelObjeto + "'")].name = name;
+        }
+        if(dateCreation.length != 0){
+            Entidades[buscarIndiceEntidad("'" + idDelObjeto + "'")].dateCreation = dateCreation;
+        }
+        if(dateDead.length != 0){
+            Entidades[buscarIndiceEntidad("'" + idDelObjeto + "'")].dateDead = dateDead;
+        }
+        if(urlImg.length != 0){
+            Entidades[buscarIndiceEntidad("'" + idDelObjeto + "'")].image = urlImg;
+        }
+        if(wiki.length != 0){
+            Entidades[buscarIndiceEntidad("'" + idDelObjeto + "'")].wiki = wiki;
+        }
+
+        if(listaPersonasEliminar.length != 0){
+            for(let persona = 0 ; persona<listaPersonasEliminar ; persona++){
+                if(("'" + listaPersonasEliminar[persona] + "'") == Personas[buscarIndicePersona("'" + listaPersonasEliminar[persona] + "'")].id){
+                    for(let i = persona ; i<Personas[buscarIndicePersona("'" + listaPersonasEliminar[persona] + "'")].borrarRelasEntidades.length-1 ; i++){
+                        Personas[buscarIndicePersona("'" + listaPersonasEliminar[persona] + "'")].borrarRelasEntidades[i] = Personas[buscarIndicePersona("'" + listaPersonasEliminar[persona] + "'")].borrarRelasEntidades[i+1];
+                    }
+                    Personas[buscarIndicePersona("'" + listaPersonasEliminar[persona] + "'")].borrarRelasEntidades = Personas[buscarIndicePersona("'" + listaPersonasEliminar[persona] + "'")].borrarRelasEntidades.slice(0,Personas[buscarIndicePersona("'" + listaPersonasEliminar[persona] + "'")].borrarRelasEntidades.length-1);
+                }
+            }
+            for(let personaDELETE = 0 ; personaDELETE<listaPersonasEliminar.length ; personaDELETE++){
+                for(let personaListaPersonas = 0 ; personaListaPersonas<Entidades[buscarIndiceEntidad("'" + idDelObjeto + "'")].listaPersonas.length ; personaListaPersonas++){
+                    if(listaPersonasEliminar[personaDELETE] ==  Entidades[buscarIndiceEntidad("'" + idDelObjeto + "'")].listaPersonas[personaListaPersonas]){
+                        
+                        for(let i = personaListaPersonas ; i<Entidades[buscarIndiceEntidad("'" + idDelObjeto + "'")].listaPersonas.length-1 ; i++){
+                            Entidades[buscarIndiceEntidad("'" + idDelObjeto + "'")].listaPersonas[i] = Entidades[buscarIndiceEntidad("'" + idDelObjeto + "'")].listaPersonas[i+1];
+                        }
+                        Entidades[buscarIndiceEntidad("'" + idDelObjeto + "'")].listaPersonas = Entidades[buscarIndiceEntidad("'" + idDelObjeto + "'")].listaPersonas.slice(0,Entidades[buscarIndiceEntidad("'" + idDelObjeto + "'")].listaPersonas.length-1);
+                    }
+                }
+            }
+        }
+        if(listaPersonasAñadir.length != 0){
+            for(let persona = 0 ; persona<listaPersonasAñadir.length ; persona++){
+                if(("'" + listaPersonasAñadir[persona] + "'") == Personas[buscarIndicePersona("'" + listaPersonasAñadir[persona] + "'")].id){
+                    Personas[buscarIndicePersona("'" + listaPersonasAñadir[persona] + "'")].borrarRelasEntidades.push(idDelObjeto);
+                }
+                Entidades[buscarIndiceEntidad("'" + idDelObjeto + "'")].listaPersonas.push(listaPersonasAñadir[persona]);
+            }
+        }
+        alert("SE HA MODIFICADO LA ENTIDAD");
+    }
+    mostrarInfoObjeto(idDelObjeto);
 }
 
-function Entidad(id, name, dateCreation, dateDead, image, wiki, listaPersonas, borrarRelasProductos){
-    this.id = id;
-    this.name = name;
-    this.dateCreation = dateCreation;
-    this.dateDead = dateDead;
-    this.image = image;
-    this.wiki = wiki;
-    this.listaPersonas = listaPersonas;
-    this.borrarRelasProductos = borrarRelasProductos;
-}
+function crearOptionsEditar(array1, array2, añadir){
+    let totalOptions = '';
+    let optionIni = '<option>';
+    let optionFin = '</option>';
 
-//IMPLEMENTAR
-function editarObjeto(){
-    alert("IMPLEMNTAR BOTON EDITAR");
+    if(añadir){
+        for(let persona = 0 ; persona<array2.length ; persona++){
+            let find = false;
+            for(let p = 0 ; p<array1.length ; p++){
+                if(array2[persona].id.substring(1,4) == array1[p]){
+                    find = true;
+                }
+            }
+            if(!find){
+                totalOptions += (optionIni + "[" + array2[persona].id + "] " + array2[persona].name + optionFin);
+            } 
+        }
+    }
+    else{
+        if(array2[0].id == Personas[0].id){
+            for(let p = 0 ; p<array1.length ; p++){
+                totalOptions += (optionIni + "['" + array1[p] + "'] " + array2[buscarIndicePersona("'" + array1[p] + "'")].name + optionFin);
+            }
+        }
+        else{
+            for(let p = 0 ; p<array1.length ; p++){
+                totalOptions += (optionIni + "['" + array1[p] + "'] " + array2[buscarIndiceEntidad("'" + array1[p] + "'")].name + optionFin);
+            }
+        }
+        
+    }
+    return totalOptions;
 }
-
 
 
 
