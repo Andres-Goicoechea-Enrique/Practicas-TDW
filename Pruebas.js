@@ -670,10 +670,16 @@ function createObjeto(idTipoObjeto){
     let botonCancelar = '<div id="cancelarCreate"><button type="button" class="btn btn-danger" style="margin-left: 45px; margin-bottom: 10px;" onclick="cargarInicio()">CANCEL</button></div>';
     let main = document.getElementById("main");
     let total = '';
+    let nextId = '';
 
 
     if(idTipoObjeto == 'pr'){
-        let nextId = "'" + idTipoObjeto + (parseInt(Productos[Productos.length-1].id.substring(3,4)) + 1) + "'";
+        if(Productos.length == 0){
+            nextId = "'" + idTipoObjeto + 1 + "'";
+        }
+        else{
+            nextId = "'" + idTipoObjeto + (parseInt(Productos[Productos.length-1].id.substring(3,4)) + 1) + "'";
+        }
         
         let formularioIni = '<div id="formularioCreate" style="margin-left: 45px;"><div class="form-group"><label for="name">Nombre del Producto:</label><input id="name" type="text" class="form-control" placeholder="Nombre"/></div><div class="form-group"><label for="dateCreation">Fecha de creación:</label><input id="dateCreation" type="text" class="form-control" placeholder="Fecha"/></div><div class="form-group"><label for="dateDead">Fecha de utilidad(Opcional):</label><input id="dateDead" type="text" class="form-control" placeholder="Fecha"/></div><div class="form-group"><label for="img">Icono del Producto:</label><input id="img" type="text" class="form-control" placeholder="URL del icono del Producto"/></div><div class="form-group"><label for="wiki">URL WIKI:</label><input id="wiki" type="text" class="form-control" placeholder="URL del Producto, preferiblemente WIKIPEDIA"/></div>';
         let formularioFin = '<button type="button" class="btn btn-warning sm-2" onclick="funcClickCrear('+nextId+')">CREAR</button></div>';
@@ -689,7 +695,12 @@ function createObjeto(idTipoObjeto){
         total = botonCancelar + formularioIni + labelsSelect + formularioFin;
     }
     else if(idTipoObjeto == 'pe'){
-        let nextId = "'" + idTipoObjeto + (parseInt(Personas[Personas.length-1].id.substring(3,4)) + 1) + "'";
+        if(Personas.length == 0){
+            nextId = "'" + idTipoObjeto + 1 + "'";
+        }
+        else{
+            nextId = "'" + idTipoObjeto + (parseInt(Personas[Personas.length-1].id.substring(3,4)) + 1) + "'";
+        }
 
         let formularioIni = '<div id="formularioCreate" style="margin-left: 45px;"><div class="form-group"><label for="name">Nombre de la Persona:</label><input id="name" type="text" class="form-control" placeholder="Nombre"/></div><div class="form-group"><label for="dateCreation">Fecha de nacimiento:</label><input id="dateCreation" type="text" class="form-control" placeholder="Fecha"/></div><div class="form-group"><label for="dateDead">Fecha de defunción(Opcional):</label><input id="dateDead" type="text" class="form-control" placeholder="Fecha"/></div><div class="form-group"><label for="img">Foto de la Persona:</label><input id="img" type="text" class="form-control" placeholder="URL de una foto de la Persona"/></div><div class="form-group"><label for="wiki">URL WIKI:</label><input id="wiki" type="text" class="form-control" placeholder="URL de la Persona, preferiblemente WIKIPEDIA"/></div>';
         let formularioFin = '<button type="button" class="btn btn-warning sm-2" onclick="funcClickCrear('+nextId+')">CREAR</button></div>';
@@ -697,7 +708,12 @@ function createObjeto(idTipoObjeto){
         total = botonCancelar + formularioIni + formularioFin;
     }
     else{
-        let nextId = "'" + idTipoObjeto + (parseInt(Entidades[Entidades.length-1].id.substring(3,4)) + 1) + "'";
+        if(Entidades.length == 0){
+            nextId = "'" + idTipoObjeto + 1 + "'";
+        }
+        else{
+            nextId = "'" + idTipoObjeto + (parseInt(Entidades[Entidades.length-1].id.substring(3,4)) + 1) + "'";
+        }
         
         let formularioIni = '<div id="formularioCreate" style="margin-left: 45px;"><div class="form-group"><label for="name">Nombre de la Entidad:</label><input id="name" type="text" class="form-control" placeholder="Nombre"/></div><div class="form-group"><label for="dateCreation">Fecha de creación:</label><input id="dateCreation" type="text" class="form-control" placeholder="Fecha"/></div><div class="form-group"><label for="dateDead">Fecha de cierre(Opcional):</label><input id="dateDead" type="text" class="form-control" placeholder="Fecha"/></div><div class="form-group"><label for="img">Logo de la Entidad:</label><input id="img" type="text" class="form-control" placeholder="URL del Logo de la Entidad"/></div><div class="form-group"><label for="wiki">URL WIKI:</label><input id="wiki" type="text" class="form-control" placeholder="URL de la Entidad, preferiblemente WIKIPEDIA"/></div>';
         let formularioFin = '<button type="button" class="btn btn-warning sm-2" onclick="funcClickCrear('+nextId+')">CREAR</button></div>';
