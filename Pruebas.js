@@ -735,15 +735,22 @@ function crearOptionsCrear(objetos){
     return totalOptions;
 }
 //funcion de optimizacion
-function contarOptionsSeleccionados(elementId){
+function contarOptionsSeleccionadas(idElemento){
     let array = [];
-    elementId = "'" + elementId + "'";
-    for(let option of document.getElementById(elementId).options){
+    for(let option of document.getElementById(idElemento).options){
         if(option.selected){
             array.push(option.value.substring(2,5));
         }
     }
     return array;
+}
+//Pendiente de revision
+function actualizarBorrarRelas(arrayLista, arrayBorrarRelas, objetos){
+    for(let persona = 0 ; persona<listaPersonas.length ; persona++){
+        if(("'" + listaPersonas[persona] + "'") == Personas[buscarIndicePersona("'" + listaPersonas[persona] + "'")].id){
+            Personas[buscarIndicePersona("'" + listaPersonas[persona] + "'")].borrarRelasProductos.push(nextId);
+        }
+    }
 }
 
 function funcClickCrear(nextId){
@@ -763,21 +770,9 @@ function funcClickCrear(nextId){
     }
     else{
         if(idTipoObjetonextId == 'pr'){
-            let listaPersonas = [];
-            let listaEntidades = [];
+            let listaPersonas = contarOptionsSeleccionadas('listaPersonas');
+            let listaEntidades = contarOptionsSeleccionadas('listaEntidades');
             
-            //contarOptionsSelected
-            for(let option of document.getElementById('listaPersonas').options){
-                if(option.selected){
-                    listaPersonas.push(option.value.substring(2,5));
-                }
-            }
-            //contarOptionsSelected
-            for(let option of document.getElementById('listaEntidades').options){
-                if(option.selected){
-                    listaEntidades.push(option.value.substring(2,5));
-                }
-            }
             let newProducto = {id,name,dateCreation,dateDead,urlImg,wiki,listaPersonas,listaEntidades};
             Productos.push(newProducto);
             alert("NUEVO PRODUCTO CREADO");
@@ -803,15 +798,8 @@ function funcClickCrear(nextId){
             alert("NUEVA PERSONA CREADA");
         }
         else{
-            let listaPersonas = [];
+            let listaPersonas = contarOptionsSeleccionadas('listaPersonas');
             let borrarRelasProductos = [];
-
-            //contarOptionsSelected
-            for(let option of document.getElementById('listaPersonas').options){
-                if(option.selected){
-                    listaPersonas.push(option.value.substring(2,5));
-                }
-            }
             
             let newEntidad = {id,name,dateCreation,dateDead,urlImg,wiki,listaPersonas,borrarRelasProductos};
             Entidades.push(newEntidad);
