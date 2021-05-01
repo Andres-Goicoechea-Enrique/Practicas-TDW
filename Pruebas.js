@@ -131,7 +131,7 @@ let Entidades = [
 
 
 let logueado = false;
-let logout = '<div id="cerrarSesion"><button type="button" class="btn btn-primary sm-2" style="margin-left: 45px;" onclick="addLogin()">LOGOUT</button></div>';
+let logout = '<div id="cerrarSesion"><button type="button" class="btn btn-primary sm-2" style="margin-left: 45px;" onclick="añadirLogin()">LOGOUT</button></div>';
 let login = '<div id="iniciarSesion"><form class="form-inline" action="login"><label for="user" class="mr-sm-2" style="margin-left: 45px;">Usuario:</label><input id="user" type="text" name="user" class="form-control mr-sm-2" placeholder="Usuario"/><label for="pass" class="mr-sm-2">Contraseña:</label><input id="pass" type="password" name="password" class="form-control mr-sm-2" placeholder="Contraseña"/><button type="button" class="btn btn-primary sm-2" onclick="funcClickLogin()">LOGIN</button></form></div>';
 
 function funcClickLogin(){
@@ -145,31 +145,31 @@ function funcClickLogin(){
         usuIndex++;
     }
     if(logueado){
-        addLogout();
+        añadirLogout();
     }
     else{
         alert("¡¡¡USUARIO Y/O CONTRASEÑA INCORRECTOS!!!");
     }
 }
 
-function addLogout(){
+function añadirLogout(){
     let x = document.getElementById("loginLogout");
     x.innerHTML = logout;
-    addWriterOptions();
+    añadirPermisosDeEdicion();
 }
 
-function addLogin(){
+function añadirLogin(){
     let x = document.getElementById("loginLogout");
     x.innerHTML = login;
     if(logueado){
-        eliminarPermisosWriter();
+        eliminarPermisosDeEdicion();
     }
     else{
         logueado = false;
     }
 }
 
-function eliminarPermisosWriter(){
+function eliminarPermisosDeEdicion(){
     let botonCreate = document.getElementById("filaBotonCRE");
     botonCreate.remove();
     for(let i=0 ; i<(Productos.length + Personas.length + Entidades.length) ; i++){
@@ -194,14 +194,14 @@ function maxFilas(){
     return max;
 }
 
-function addHeader(){
+function añadirCabecera(){
     let header = document.getElementById("header");
     
     let headerContent = '<div class="container pt-3 my-3 border bg-dark text-center"><h1 class="text-primary">Anales de la Ciencia</h1></div>';
     header.innerHTML = headerContent;
 }
 
-function addMain(){
+function añadirMain(){
     let main = document.getElementById("main");
 
     let mainContent = '<div id="loginLogout"></div><div id="tablaInfo"><table class="table table-bordered" style="margin-top: 20px;"><thead id="theadPPE"><tr><th class="text-center">PRODUCTOS</th><th class="text-center">PERSONAS</th><th class="text-center">ENTIDADES</th></tr></thead><tbody id="tbodyPPE" class="text-center"></tbody></table></div>';
@@ -209,8 +209,8 @@ function addMain(){
 }
 
 function cargarInicio(){
-    addHeader();
-    addMain();
+    añadirCabecera();
+    añadirMain();
 
     let tbody = document.getElementById("tbodyPPE");
 
@@ -248,10 +248,10 @@ function cargarInicio(){
         tbody.appendChild(tr);
     }
     if(logueado){
-        addLogout();
+        añadirLogout();
     }
     else{
-        addLogin();
+        añadirLogin();
     }
 }
 
@@ -262,7 +262,7 @@ function crearBotonDelete(id){
     let attClass = document.createAttribute("class");
     attClass.value = "btn btn-danger";
     let attOnclick = document.createAttribute("onclick");
-    attOnclick.value = "deleteObjeto("+ id +")";
+    attOnclick.value = "borrarObjeto("+ id +")";
     let attId = document.createAttribute("id");
     attId.value = "botonDEL";
 
@@ -278,7 +278,7 @@ function crearBotonDelete(id){
     return del;
 }
 
-function deleteObjeto(id){
+function borrarObjeto(id){
     let tipoObjeto = id.substring(0,2);
     let idBuscador = "'"+id+"'";
     let indice = 0;
@@ -468,13 +468,13 @@ function crearBotonCreate(columna){
     attClass.value = "btn btn-warning";
     let attOnclick = document.createAttribute("onclick");
     if(columna == 0){
-        attOnclick.value = "createObjeto('pr')";
+        attOnclick.value = "crearObjeto('pr')";
     }
     else if(columna == 1){
-        attOnclick.value = "createObjeto('pe')";
+        attOnclick.value = "crearObjeto('pe')";
     }
     else{
-        attOnclick.value = "createObjeto('en')";
+        attOnclick.value = "crearObjeto('en')";
     }
 
     let text = document.createTextNode("CREATE");
@@ -487,7 +487,7 @@ function crearBotonCreate(columna){
     return cre;
 }
 
-function addWriterOptions(){
+function añadirPermisosDeEdicion(){
 
     let tbody = document.getElementById("tbodyPPE");
 
@@ -666,7 +666,7 @@ function mostrarInfoObjeto(id){
     main.innerHTML = total;
 }
 
-function nextId(Objetos, idTipoObjeto){
+function generarSiguienteId(Objetos, idTipoObjeto){
     if(Objetos.length == 0){
         newId = "'" + idTipoObjeto + 1 + "'";
     }
@@ -676,7 +676,7 @@ function nextId(Objetos, idTipoObjeto){
     return newId;
 }
 
-function createObjeto(idTipoObjeto){
+function crearObjeto(idTipoObjeto){
     let botonCancelar = '<div id="cancelarCreate"><button type="button" class="btn btn-danger" style="margin-left: 45px; margin-bottom: 10px;" onclick="cargarInicio()">CANCEL</button></div>';
     let main = document.getElementById("main");
     let total = '';
@@ -684,7 +684,7 @@ function createObjeto(idTipoObjeto){
 
 
     if(idTipoObjeto == 'pr'){
-        idNewObjeto = nextId(Productos, idTipoObjeto);
+        idNewObjeto = generarSiguienteId(Productos, idTipoObjeto);
         
         let formularioIni = '<div id="formularioCreate" style="margin-left: 45px;"><div class="form-group"><label for="name">Nombre del Producto:</label><input id="name" type="text" class="form-control" placeholder="Nombre"/></div><div class="form-group"><label for="dateCreation">Fecha de creación:</label><input id="dateCreation" type="text" class="form-control" placeholder="Fecha"/></div><div class="form-group"><label for="dateDead">Fecha de utilidad(Opcional):</label><input id="dateDead" type="text" class="form-control" placeholder="Fecha"/></div><div class="form-group"><label for="img">Icono del Producto:</label><input id="img" type="text" class="form-control" placeholder="URL del icono del Producto"/></div><div class="form-group"><label for="wiki">URL WIKI:</label><input id="wiki" type="text" class="form-control" placeholder="URL del Producto, preferiblemente WIKIPEDIA"/></div>';
         let formularioFin = '<button type="button" class="btn btn-warning sm-2" onclick="funcClickCrear('+idNewObjeto+')">CREAR</button></div>';
@@ -693,14 +693,14 @@ function createObjeto(idTipoObjeto){
         let optionsListaPersonas = '<div class="form-group"><label for="listaPersonas">Seleccione las Personas que tienen relación con el producto (Mantega pulsado CTRL para seleccionar más de una):</label><select id="listaPersonas" multiple class="form-control">';
         let optionsListaEntidades = '<div class="form-group"><label for="listaEntidades">Seleccione las Entidades que tienen relación con el producto (Mantega pulsado CTRL para seleccionar más de una):</label><select id="listaEntidades" multiple class="form-control">';
         
-        optionsListaPersonas += (crearOptions(Personas) + labelSelectFin);
-        optionsListaEntidades += (crearOptions(Entidades) + labelSelectFin);
+        optionsListaPersonas += (crearOptionsCrear(Personas) + labelSelectFin);
+        optionsListaEntidades += (crearOptionsCrear(Entidades) + labelSelectFin);
         labelsSelect += (optionsListaPersonas + optionsListaEntidades);
 
         total = botonCancelar + formularioIni + labelsSelect + formularioFin;
     }
     else if(idTipoObjeto == 'pe'){
-        idNewObjeto = nextId(Personas, idTipoObjeto);
+        idNewObjeto = generarSiguienteId(Personas, idTipoObjeto);
 
         let formularioIni = '<div id="formularioCreate" style="margin-left: 45px;"><div class="form-group"><label for="name">Nombre de la Persona:</label><input id="name" type="text" class="form-control" placeholder="Nombre"/></div><div class="form-group"><label for="dateCreation">Fecha de nacimiento:</label><input id="dateCreation" type="text" class="form-control" placeholder="Fecha"/></div><div class="form-group"><label for="dateDead">Fecha de defunción(Opcional):</label><input id="dateDead" type="text" class="form-control" placeholder="Fecha"/></div><div class="form-group"><label for="img">Foto de la Persona:</label><input id="img" type="text" class="form-control" placeholder="URL de una foto de la Persona"/></div><div class="form-group"><label for="wiki">URL WIKI:</label><input id="wiki" type="text" class="form-control" placeholder="URL de la Persona, preferiblemente WIKIPEDIA"/></div>';
         let formularioFin = '<button type="button" class="btn btn-warning sm-2" onclick="funcClickCrear('+idNewObjeto+')">CREAR</button></div>';
@@ -708,7 +708,7 @@ function createObjeto(idTipoObjeto){
         total = botonCancelar + formularioIni + formularioFin;
     }
     else{
-        idNewObjeto = nextId(Entidades, idTipoObjeto);
+        idNewObjeto = generarSiguienteId(Entidades, idTipoObjeto);
         
         let formularioIni = '<div id="formularioCreate" style="margin-left: 45px;"><div class="form-group"><label for="name">Nombre de la Entidad:</label><input id="name" type="text" class="form-control" placeholder="Nombre"/></div><div class="form-group"><label for="dateCreation">Fecha de creación:</label><input id="dateCreation" type="text" class="form-control" placeholder="Fecha"/></div><div class="form-group"><label for="dateDead">Fecha de cierre(Opcional):</label><input id="dateDead" type="text" class="form-control" placeholder="Fecha"/></div><div class="form-group"><label for="img">Logo de la Entidad:</label><input id="img" type="text" class="form-control" placeholder="URL del Logo de la Entidad"/></div><div class="form-group"><label for="wiki">URL WIKI:</label><input id="wiki" type="text" class="form-control" placeholder="URL de la Entidad, preferiblemente WIKIPEDIA"/></div>';
         let formularioFin = '<button type="button" class="btn btn-warning sm-2" onclick="funcClickCrear('+idNewObjeto+')">CREAR</button></div>';
@@ -716,7 +716,7 @@ function createObjeto(idTipoObjeto){
         let labelSelectFin = '</select></div>';
         let optionsListaPersonas = '<div class="form-group"><label for="listaPersonas">Seleccione las Personas que tienen relación con la entidad (Mantega pulsado CTRL para seleccionar más de una):</label><select id="listaPersonas" multiple class="form-control">';
         
-        optionsListaPersonas += (crearOptions(Personas) + labelSelectFin);
+        optionsListaPersonas += (crearOptionsCrear(Personas) + labelSelectFin);
         
         labelsSelect += optionsListaPersonas;
 
@@ -725,7 +725,7 @@ function createObjeto(idTipoObjeto){
     main.innerHTML = total;
 }
 
-function crearOptions(objetos){
+function crearOptionsCrear(objetos){
     let totalOptions = '';
     let optionIni = '<option>';
     let optionFin = '</option>';
@@ -733,6 +733,17 @@ function crearOptions(objetos){
         totalOptions += (optionIni + "[" + objetos[i].id + "] " + objetos[i].name + optionFin);
     }
     return totalOptions;
+}
+//funcion de optimizacion
+function contarOptionsSeleccionados(elementId){
+    let array = [];
+    elementId = "'" + elementId + "'";
+    for(let option of document.getElementById(elementId).options){
+        if(option.selected){
+            array.push(option.value.substring(2,5));
+        }
+    }
+    return array;
 }
 
 function funcClickCrear(nextId){
@@ -755,11 +766,13 @@ function funcClickCrear(nextId){
             let listaPersonas = [];
             let listaEntidades = [];
             
+            //contarOptionsSelected
             for(let option of document.getElementById('listaPersonas').options){
                 if(option.selected){
                     listaPersonas.push(option.value.substring(2,5));
                 }
             }
+            //contarOptionsSelected
             for(let option of document.getElementById('listaEntidades').options){
                 if(option.selected){
                     listaEntidades.push(option.value.substring(2,5));
@@ -793,6 +806,7 @@ function funcClickCrear(nextId){
             let listaPersonas = [];
             let borrarRelasProductos = [];
 
+            //contarOptionsSelected
             for(let option of document.getElementById('listaPersonas').options){
                 if(option.selected){
                     listaPersonas.push(option.value.substring(2,5));
@@ -1104,5 +1118,18 @@ function crearOptionsEditar(array1, array2, añadir){
 }
 
 
+/* Encuentra el indice de un elemento determinado
+<script>
+let ages = ["'pr1'", "'pr3'", "'pr7'", "'pr2'"];
 
+function checkAdult(age) {
+  return age == "'pr1'";
+}
 
+function myFunction() {
+  document.getElementById("demo").innerHTML = ages.findIndex(checkAdult);
+}
+</script>
+*/
+
+//https://www.youtube.com/watch?v=R8rmfD9Y5-c Array methods
