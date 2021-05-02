@@ -414,6 +414,16 @@ function crearBotonCreate(columna){
     return cre;
 }
 
+function añadirBotonDelete(objetos){
+    for(let index=0 ; index<objetos.length ; index++){
+        let botonDelete = crearBotonDelete(objetos[index].id);
+        
+        let div = document.getElementById(objetos[index].id);
+
+        div.appendChild(botonDelete);
+    }
+}
+
 function añadirPermisosDeEdicion(){
 
     let tbody = document.getElementById("tbodyPPE");
@@ -450,29 +460,10 @@ function añadirPermisosDeEdicion(){
     tr.appendChild(td3);
 
     tbody.appendChild(tr);
-    for(let index=0 ; index<Productos.length ; index++){
-        let botonDelete = crearBotonDelete(Productos[index].id);
-        
-        let div = document.getElementById(Productos[index].id);
 
-        div.appendChild(botonDelete);
-    }
-    
-    for(let index=0 ; index<Personas.length ; index++){
-        let botonDelete = crearBotonDelete(Personas[index].id);
-        
-        let div = document.getElementById(Personas[index].id);
-
-        div.appendChild(botonDelete);
-    }
-
-    for(let index=0 ; index<Entidades.length ; index++){
-        let botonDelete = crearBotonDelete(Entidades[index].id);
-        
-        let div = document.getElementById(Entidades[index].id);
-
-        div.appendChild(botonDelete);
-    }
+    añadirBotonDelete(Productos);
+    añadirBotonDelete(Personas);
+    añadirBotonDelete(Entidades);
 }
 
 function mostrarInfoObjeto(id){ 
