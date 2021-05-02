@@ -278,152 +278,79 @@ function crearBotonDelete(id){
     return del;
 }
 
+function borrarElemntoDeUnArray(indice, array){
+    for(let i = indice ; i<array.length-1 ; i++){
+        array[i] = array[i+1];
+    }
+    return array.splice(0, array.length-1);;
+}
+
 function borrarObjeto(id){
     let tipoObjeto = id.substring(0,2);
     let idBuscador = "'"+id+"'";
     let indice = 0;
 
     if(tipoObjeto == "pr"){
-        
-        indice = buscarIndiceProducto(idBuscador);
-        
+        indice = Productos.findIndex(encontrarIndice, idBuscador);
+
         console.log("Borrando el producto de Persona");
         for(let persona = 0 ; persona<Productos[indice].listaPersonas.length ; persona++){
-
-            let indiceIdPersona = buscarIndicePersona("'"+Productos[indice].listaPersonas[persona]+"'");
-            
-            let find = false;
-            let indiceProductoBorradoBorrarRelasProductos = 0;
-            while(!find){
-                if(id == Personas[indiceIdPersona].borrarRelasProductos[indiceProductoBorradoBorrarRelasProductos]){
-                    find = true;
-                }
-                indiceProductoBorradoBorrarRelasProductos++;
-            }
-            indiceProductoBorradoBorrarRelasProductos--;
-
-            for(let i = indiceProductoBorradoBorrarRelasProductos ; i<Personas[indiceIdPersona].borrarRelasProductos.length-1 ; i++){
-                Personas[indiceIdPersona].borrarRelasProductos[i] = Personas[indiceIdPersona].borrarRelasProductos[i + 1];
-            }
-            Personas[indiceIdPersona].borrarRelasProductos = Personas[indiceIdPersona].borrarRelasProductos.slice(0, Personas[indiceIdPersona].borrarRelasProductos.length-1);
+            let indiceIdPersona = Personas.findIndex(encontrarIndice, "'"+Productos[indice].listaPersonas[persona]+"'");
+            let indiceProductoBorradoBorrarRelasProductos = Personas[indiceIdPersona].borrarRelasProductos.findIndex(encontrarIndiceObjetoBorrado, id);            
+            Personas[indiceIdPersona].borrarRelasProductos = borrarElemntoDeUnArray(indiceProductoBorradoBorrarRelasProductos, Personas[indiceIdPersona].borrarRelasProductos);
         }
-        
+        console.log("Borrando el producto de Entidad");
         for(let entidad = 0 ; entidad<Productos[indice].listaEntidades.length ; entidad++){
-
-            let indiceIdEntidad = buscarIndiceEntidad("'"+Productos[indice].listaEntidades[entidad]+"'");
-            
-            let find = false;
-            let indiceProductoBorradoBorrarRelasProductos = 0;
-            while(!find){
-                if(id == Entidades[indiceIdEntidad].borrarRelasProductos[indiceProductoBorradoBorrarRelasProductos]){
-                    find = true;
-                }
-                indiceProductoBorradoBorrarRelasProductos++;
-            }
-            indiceProductoBorradoBorrarRelasProductos--;
-
-            for(let i = indiceProductoBorradoBorrarRelasProductos ; i<Entidades[indiceIdEntidad].borrarRelasProductos.length-1 ; i++){
-                Entidades[indiceIdEntidad].borrarRelasProductos[i] = Entidades[indiceIdEntidad].borrarRelasProductos[i + 1];
-            }
-            Entidades[indiceIdEntidad].borrarRelasProductos = Entidades[indiceIdEntidad].borrarRelasProductos.slice(0, Entidades[indiceIdEntidad].borrarRelasProductos.length-1);
+            let indiceIdEntidad = Entidades.findIndex(encontrarIndice, "'"+Productos[indice].listaEntidades[entidad]+"'");
+            let indiceProductoBorradoBorrarRelasProductos = Entidades[indiceIdEntidad].borrarRelasProductos.findIndex(encontrarIndiceObjetoBorrado, id);
+            Entidades[indiceIdEntidad].borrarRelasProductos = borrarElemntoDeUnArray(indiceProductoBorradoBorrarRelasProductos, Entidades[indiceIdEntidad].borrarRelasProductos);
         }
-
-        for(let i = indice ; i<Productos.length-1 ; i++){
-            Productos[i] = Productos[i+1];
-        }
-        Productos = Productos.splice(0, Productos.length-1);
+        Productos = borrarElemntoDeUnArray(indice, Productos);
     }
     else if(tipoObjeto == "pe"){
-        indice = buscarIndicePersona(idBuscador);
-        console.log("Borrando la persona de producto");
+        indice = Personas.findIndex(encontrarIndice, idBuscador);
+
+        console.log("Borrando la persona de Producto");
         for(let producto = 0 ; producto<Personas[indice].borrarRelasProductos.length ; producto++){
-            let indiceIdProducto = buscarIndiceProducto("'"+Personas[indice].borrarRelasProductos[producto]+"'");
-            
-            let find = false;
-            let indicePersonaBorradaListaPersonaProducto = 0;
-            while(!find){
-                if(id == Productos[indiceIdProducto].listaPersonas[indicePersonaBorradaListaPersonaProducto]){
-                    find = true;
-                }
-                indicePersonaBorradaListaPersonaProducto++;
-            }
-            indicePersonaBorradaListaPersonaProducto--;
-
-            for(let i = indicePersonaBorradaListaPersonaProducto ; i<Productos[indiceIdProducto].listaPersonas.length-1 ; i++){
-                Productos[indiceIdProducto].listaPersonas[i] = Productos[indiceIdProducto].listaPersonas[i + 1];
-            }
-            Productos[indiceIdProducto].listaPersonas = Productos[indiceIdProducto].listaPersonas.slice(0, Productos[indiceIdProducto].listaPersonas.length-1);
+            let indiceIdProducto = Productos.findIndex(encontrarIndice, "'"+Personas[indice].borrarRelasProductos[producto]+"'");
+            let indicePersonaBorradaListaPersonaProducto = Productos[indiceIdProducto].listaPersonas.findIndex(encontrarIndiceObjetoBorrado, id);
+            Productos[indiceIdProducto].listaPersonas = borrarElemntoDeUnArray(indicePersonaBorradaListaPersonaProducto, Productos[indiceIdProducto].listaPersonas);
         }
+        console.log("Borrando la persona de Entidad");
         for(let entidad = 0 ; entidad<Personas[indice].borrarRelasEntidades.length ; entidad++){
-            let indiceIdEntidad = buscarIndiceEntidad("'"+Personas[indice].borrarRelasEntidades[entidad]+"'");
-            let find = false;
-            let indicePersonaBorradaListaPersonaEntidad = 0;
-
-            while(!find){
-                if(id == Entidades[indiceIdEntidad].listaPersonas[indicePersonaBorradaListaPersonaEntidad]){
-                    find = true;
-                }
-                indicePersonaBorradaListaPersonaEntidad++;
-            }
-            indicePersonaBorradaListaPersonaEntidad--;
-
-            for(let i = indicePersonaBorradaListaPersonaEntidad ; i<Entidades[indiceIdEntidad].listaPersonas.length-1 ; i++){
-                Entidades[indiceIdEntidad].listaPersonas[i] = Entidades[indiceIdEntidad].listaPersonas[i + 1];
-            }
-            Entidades[indiceIdEntidad].listaPersonas = Entidades[indiceIdEntidad].listaPersonas.slice(0, Entidades[indiceIdEntidad].listaPersonas.length-1);
+            let indiceIdEntidad = Entidades.findIndex(encontrarIndice, "'"+Personas[indice].borrarRelasEntidades[entidad]+"'");
+            let indicePersonaBorradaListaPersonaEntidad = Entidades[indiceIdEntidad].listaPersonas.findIndex(encontrarIndiceObjetoBorrado, id);
+            Entidades[indiceIdEntidad].listaPersonas = borrarElemntoDeUnArray(indicePersonaBorradaListaPersonaEntidad, Entidades[indiceIdEntidad].listaPersonas);
         }
-        
-        for(let i = indice ; i<Personas.length-1 ; i++){
-            Personas[i] = Personas[i+1];
-        }
-        Personas = Personas.splice(0, Personas.length-1);
+        Personas = borrarElemntoDeUnArray(indice, Personas);
     }
     else{
-        indice = buscarIndiceEntidad(idBuscador);
+        indice = Entidades.findIndex(encontrarIndice, idBuscador);
+
+        console.log("Borrando la entidad de Producto");
         for(let producto = 0 ; producto<Entidades[indice].borrarRelasProductos.length ; producto++){
-
-            let indiceIdProducto = buscarIndiceProducto("'"+Entidades[indice].borrarRelasProductos[producto]+"'");
-            
-            let find = false;
-            let indiceEntidadBorradaListaEntidadProducto = 0;
-            while(!find){
-                if(id == Productos[indiceIdProducto].listaEntidades[indiceEntidadBorradaListaEntidadProducto]){
-                    find = true;
-                }
-                indiceEntidadBorradaListaEntidadProducto++;
-            }
-            indiceEntidadBorradaListaEntidadProducto--;
-
-            for(let i = indiceEntidadBorradaListaEntidadProducto ; i<Productos[indiceIdProducto].listaEntidades.length-1 ; i++){
-                Productos[indiceIdProducto].listaEntidades[i] = Productos[indiceIdProducto].listaEntidades[i + 1];
-            }
-            Productos[indiceIdProducto].listaEntidades = Productos[indiceIdProducto].listaEntidades.slice(0, Productos[indiceIdProducto].listaEntidades.length-1);
+            let indiceIdProducto = Productos.findIndex(encontrarIndice, "'"+Entidades[indice].borrarRelasProductos[producto]+"'");
+            let indiceEntidadBorradaListaEntidadProducto = Productos[indiceIdProducto].listaEntidades.findIndex(encontrarIndiceObjetoBorrado, id);
+            Productos[indiceIdProducto].listaEntidades = borrarElemntoDeUnArray(indiceEntidadBorradaListaEntidadProducto, Productos[indiceIdProducto].listaEntidades);        
         }
+        console.log("Borrando la entidad de Persona");
         for(let persona = 0 ; persona<Entidades[indice].listaPersonas.length ; persona++){
-
-            let indiceIdPersona = buscarIndicePersona("'"+Entidades[indice].listaPersonas[persona]+"'");
-            
-            let find = false;
-            let indiceEntidadBorradaBorrarRelasEntidades = 0;
-            while(!find){
-                if(id == Personas[indiceIdPersona].borrarRelasEntidades[indiceEntidadBorradaBorrarRelasEntidades]){
-                    find = true;
-                }
-                indiceEntidadBorradaBorrarRelasEntidades++;
-            }
-            indiceEntidadBorradaBorrarRelasEntidades--;
-
-            for(let i = indiceEntidadBorradaBorrarRelasEntidades ; i<Personas[indiceIdPersona].borrarRelasEntidades.length-1 ; i++){
-                Personas[indiceIdPersona].borrarRelasEntidades[i] = Personas[indiceIdPersona].borrarRelasEntidades[i + 1];
-            }
-            Personas[indiceIdPersona].borrarRelasEntidades = Personas[indiceIdPersona].borrarRelasEntidades.slice(0, Personas[indiceIdPersona].borrarRelasEntidades.length-1);
+            let indiceIdPersona = Personas.findIndex(encontrarIndice, "'"+Entidades[indice].listaPersonas[persona]+"'");
+            let indiceEntidadBorradaBorrarRelasEntidades = Personas[indiceIdPersona].borrarRelasEntidades.findIndex(encontrarIndiceObjetoBorrado, id);
+            Personas[indiceIdPersona].borrarRelasEntidades = borrarElemntoDeUnArray(indiceEntidadBorradaBorrarRelasEntidades, Personas[indiceIdPersona].borrarRelasEntidades);
         }
-        for(let i = indice ; i<Entidades.length-1 ; i++){
-            Entidades[i] = Entidades[i+1];
-        }
-        Entidades = Entidades.splice(0, Entidades.length-1);
+        Entidades = borrarElemntoDeUnArray(indice, Entidades);
     }
     cargarInicio();
+}
+
+//Sustituir por buscarIndiceEnArrayDeObjetos(idBuscador) ages.findIndex(encontrarIndice, idBuscador);//ages = PPE
+function encontrarIndice(objeto){
+    return objeto.id == this;
+}
+
+function encontrarIndiceObjetoBorrado(objeto){
+    return objeto == this;
 }
 
 function buscarIndiceProducto(idBuscador){
@@ -1111,13 +1038,17 @@ function crearOptionsEditar(array1, array2, añadir){
 let ages = ["'pr1'", "'pr3'", "'pr7'", "'pr2'"];
 
 function checkAdult(age) {
-  return age == "'pr1'";
+	
+  	return age == this;
 }
 
 function myFunction() {
-  document.getElementById("demo").innerHTML = ages.findIndex(checkAdult);
+  	console.log(ages.findIndex(checkAdult, "'pr3'"));
 }
+myFunction();
 </script>
 */
+
+
 
 //https://www.youtube.com/watch?v=R8rmfD9Y5-c Array methods
