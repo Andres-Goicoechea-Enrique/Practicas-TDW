@@ -20,7 +20,7 @@ let Productos = [
         id : "'pr1'",
         name : "HTML",
         dateCreation : "29 de octubre de 1991",
-        dateDead : undefined,
+        dateDead : "Actualidad",
         image : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/230px-HTML5_logo_and_wordmark.svg.png",
         wiki : "https://es.wikipedia.org/wiki/HTML",
         listaPersonas : ["pe1"],
@@ -30,7 +30,7 @@ let Productos = [
         id : "'pr2'",
         name : "SGML",
         dateCreation : "febrero de 1960",
-        dateDead : undefined,
+        dateDead : "Actualidad",
         image : "https://www.iconattitude.com/icons/open_icon_library/xfce4-style/png/256/text-sgml.png",
         wiki : "https://es.wikipedia.org/wiki/SGML",
         listaPersonas : [],
@@ -40,7 +40,7 @@ let Productos = [
         id : "'pr3'",
         name : "CSS",
         dateCreation : "17 de diciembre de 1996",
-        dateDead : undefined,
+        dateDead : "Actualidad",
         image : "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/CSS3_logo_and_wordmark.svg/120px-CSS3_logo_and_wordmark.svg.png",
         wiki : "https://es.wikipedia.org/wiki/Hoja_de_estilos_en_cascada",
         listaPersonas : ["pe1"],
@@ -50,7 +50,7 @@ let Productos = [
         id : "'pr4'",
         name : "XML",
         dateCreation : "10 de febrero de 1998",
-        dateDead : undefined,
+        dateDead : "Actualidad",
         image : "https://cdn.iconscout.com/icon/free/png-256/xml-file-2330558-1950399.png",
         wiki : "https://es.wikipedia.org/wiki/Extensible_Markup_Language",
         listaPersonas : [],
@@ -60,7 +60,7 @@ let Productos = [
         id : "'pr5'",
         name : "HTTP",
         dateCreation : "enero de 1991",
-        dateDead : undefined,
+        dateDead : "Actualidad",
         image : "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/HTTP_logo.svg/100px-HTTP_logo.svg.png",
         wiki : "https://es.wikipedia.org/wiki/Protocolo_de_transferencia_de_hipertexto",
         listaPersonas : ["pe1"],
@@ -70,7 +70,7 @@ let Productos = [
         id : "'pr6'",
         name : "JavaScript",
         dateCreation : "En 1995",
-        dateDead : undefined,
+        dateDead : "Actualidad",
         image : "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/245px-Unofficial_JavaScript_logo_2.svg.png",
         wiki : "https://es.wikipedia.org/wiki/JavaScript",
         listaPersonas : [],
@@ -81,7 +81,7 @@ let Personas = [
         id : "'pe1'",
         name : "Tim Berners-Lee",
         dateCreation : "29 de octubre de 1991",
-        dateDead : undefined,
+        dateDead : "Actualidad",
         image : "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Sir_Tim_Berners-Lee_%28cropped%29.jpg/220px-Sir_Tim_Berners-Lee_%28cropped%29.jpg",
         wiki : "https://es.wikipedia.org/wiki/Tim_Berners-Lee",
         borrarRelasProductos : ["pr1", "pr3", "pr5"],
@@ -102,7 +102,7 @@ let Entidades = [
         id : "'en1'",
         name : "IBM",
         dateCreation : "16 de junio de 1911",
-        dateDead : undefined,
+        dateDead : "Actualidad",
         image : "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/IBM_logo.svg/245px-IBM_logo.svg.png",
         wiki : "https://es.wikipedia.org/wiki/IBM",
         listaPersonas : [],
@@ -112,7 +112,7 @@ let Entidades = [
         id : "'en2'",
         name : "CERN",
         dateCreation : "29 de septiembre de 1954",
-        dateDead : undefined,
+        dateDead : "Actualidad",
         image : "https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/CERN_logo.svg/160px-CERN_logo.svg.png",
         wiki : "https://es.wikipedia.org/wiki/Organizaci%C3%B3n_Europea_para_la_Investigaci%C3%B3n_Nuclear",
         listaPersonas : ["pe1"],
@@ -122,7 +122,7 @@ let Entidades = [
         id : "'en3'",
         name : "W3C",
         dateCreation : "1 de octubre de 1994",
-        dateDead : undefined,
+        dateDead : "Actualidad",
         image : "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/W3C%C2%AE_Icon.svg/245px-W3C%C2%AE_Icon.svg.png",
         wiki : "https://es.wikipedia.org/wiki/World_Wide_Web_Consortium",
         listaPersonas : ["pe1"],
@@ -466,121 +466,87 @@ function añadirPermisosDeEdicion(){
     añadirBotonDelete(Entidades);
 }
 
+function crearHtmlDeLista(lista, objetos){
+    let inicio = '<div class="col-sm-6">';
+    let fin = '</div>';
+    let total = '';
+    if(lista.length == 0){
+        total = inicio + 'NO HAY PERSONAS RELACIONADAS' + fin;
+    }
+    else{
+        for(let x=0 ; x<lista.length ; x++){
+            inicio += '<img src="'+objetos[objetos.findIndex(encontrarIndice, "'"+lista[x]+"'")].image+'" width="50px" height="50px"/>';
+        }
+        total = inicio + fin;
+    }
+    return total;
+}
+
 function mostrarInfoObjeto(id){ 
     let tipoObjeto = id.substring(0,2);
     let idBuscador = "'"+id+"'";
     let total = '';
     let main = document.getElementById("main");
-    let inicio = '';
+    let botones = '';
 
-    let ini = '<div class="row"><div class="col-sm-4  text-center">';
+    let iniDatos = '<div class="row"><div class="col-sm-4  text-center">';
     let nombre = '';
     let dateCreation = '';
     let dateDead = '';
     let imagen = '';
     let iframe = '';
-    let fin = '</div>';
+    let finDatos = '</div>';
 
     if(logueado){
-        inicio = '<div id="inicioYeditar" class="row"><div class="col-sm-6" ><button type="button" class="btn btn-primary" style="margin-left: 70px;  margin-bottom: 5px;" onclick="cargarInicio()">INICIO</button></div><div class="col-sm-6 text-right"><button type="button" class="btn btn-info" style="margin-right: 110px; margin-bottom: 5px;" onclick="editarObjeto('+idBuscador+')">EDITAR</button></div></div>';
+        botones = '<div id="inicioYeditar" class="row"><div class="col-sm-6" ><button type="button" class="btn btn-primary" style="margin-left: 70px;  margin-bottom: 5px;" onclick="cargarInicio()">INICIO</button></div><div class="col-sm-6 text-right"><button type="button" class="btn btn-info" style="margin-right: 110px; margin-bottom: 5px;" onclick="editarObjeto('+idBuscador+')">EDITAR</button></div></div>';
     }
     else{
-        inicio = '<div id="inicio"><button type="button" class="btn btn-primary" style="margin-left: 45px;" onclick="cargarInicio()">INICIO</button></div>';
+        botones = '<div id="inicio"><button type="button" class="btn btn-primary" style="margin-left: 45px;" onclick="cargarInicio()">INICIO</button></div>';
     }
-
 
     if(tipoObjeto == "pr"){
         console.log("ES UN PRODUCTO");
-
-        let totalPersonas = '';
-        let totalEntidades = '';
-
-        let indice = buscarIndiceProducto(idBuscador);
+        let indice = Productos.findIndex(encontrarIndice, idBuscador);
         
         nombre = '<div><b>'+Productos[indice].name+'</b></div>';
         dateCreation = '<div>'+Productos[indice].dateCreation+'</div>';
-        if(Productos[indice].dateDead == undefined){
-            dateDead = '<div>Actualidad</div>';
-        }
-        else{
-            dateDead = '<div>'+Productos[indice].dateDead+'</div>';
-        }
+        dateDead = '<div>'+Productos[indice].dateDead+'</div>';
         imagen = '<div><img src="'+Productos[indice].image+'" class="img-thumbnail" width="300px" height="300px"/></div></div>';
         iframe = '<div class="col-sm-8"><div><iframe src="'+Productos[indice].wiki+'" width="790px" height="400px"></iframe> </div></div></div>';
 
-        let iniPersonas = '<div class="row text-center" style="margin-top: 5px;"><div class="col-sm-6">';
-        let finPersonas = '</div>';
-        if(Productos[indice].listaPersonas.length == 0){
-            totalPersonas = iniPersonas + "NO HAY PERSONAS RELACIONADAS" + finPersonas;
-        }
-        else{
-            for(let x=0 ; x<Productos[indice].listaPersonas.length ; x++){
-                iniPersonas += '<img src="'+Personas[buscarIndicePersona("'"+Productos[indice].listaPersonas[x]+"'")].image+'" width="50px" height="50px"/>';
-            }
-            totalPersonas = iniPersonas + finPersonas;
-        }
+        let totalPersonas = crearHtmlDeLista(Productos[indice].listaPersonas, Personas);
+        let totalEntidades = crearHtmlDeLista(Productos[indice].listaEntidades, Entidades);
+        let listaDePersonasyEntidades = '<div class="row text-center" style="margin-top: 5px;">'+ totalPersonas + totalEntidades +'</div>';
 
-        let iniEntidades = '<div class="col-sm-6">';
-        let finEntidades = '</div>';
-        if(Productos[indice].listaEntidades.length == 0){
-            totalEntidades = iniEntidades + "NO HAY ENTIDADES RELACIONADAS" + finEntidades;
-        }
-        else{
-            for(let x=0 ; x<Productos[indice].listaEntidades.length ; x++){
-                iniEntidades += '<img src="'+Entidades[buscarIndiceEntidad("'"+Productos[indice].listaEntidades[x]+"'")].image+'" width="50px" height="50px"/>';
-            }
-            totalEntidades = iniEntidades + finEntidades;
-        }
-        total = inicio + ini + nombre + dateCreation + dateDead + imagen + iframe + totalPersonas + totalEntidades + fin;
+        total = botones + iniDatos + nombre + dateCreation + dateDead + imagen + iframe + listaDePersonasyEntidades + finDatos;
     }
     else if(tipoObjeto == "pe"){
         console.log("ES UNA PERSONA");
-        let indice = buscarIndicePersona(idBuscador);
+        let indice = Personas.findIndex(encontrarIndice, idBuscador);
         
         nombre = '<div><b>'+Personas[indice].name+'</b></div>';
         dateCreation = '<div>'+Personas[indice].dateCreation+'</div>';
-        if(Personas[indice].dateDead == undefined){
-            dateDead = '<div>Actualidad</div>';
-        }
-        else{
-            dateDead = '<div>'+Personas[indice].dateDead+'</div>';
-        }
+        dateDead = '<div>'+Personas[indice].dateDead+'</div>';
         imagen = '<div><img src="'+Personas[indice].image+'" class="img-thumbnail" width="300px" height="300px"/></div></div>';
         iframe = '<div class="col-sm-8"><div><iframe src="'+Personas[indice].wiki+'" width="790px" height="400px"></iframe> </div></div>';
         
-        total = inicio + ini + nombre + dateCreation + dateDead + imagen + iframe + fin;
+        total = botones + iniDatos + nombre + dateCreation + dateDead + imagen + iframe + finDatos;
     }
     else{
         console.log("ES UNA ENTIDAD");
-        let totalPersonas = '';
-
-        let indice = buscarIndiceEntidad(idBuscador);
+        let indice = Entidades.findIndex(encontrarIndice, idBuscador);
         
         nombre = '<div><b>'+Entidades[indice].name+'</b></div>';
         dateCreation = '<div>'+Entidades[indice].dateCreation+'</div>';
-        if(Entidades[indice].dateDead == undefined){
-            dateDead = '<div>Actualidad</div>';
-        }
-        else{
-            dateDead = '<div>'+Entidades[indice].dateDead+'</div>';
-        }
+        dateDead = '<div>'+Entidades[indice].dateDead+'</div>';
         imagen = '<div><img src="'+Entidades[indice].image+'" class="img-thumbnail" width="300px" height="300px"/></div></div>';
         iframe = '<div class="col-sm-8"><div><iframe src="'+Entidades[indice].wiki+'" width="790px" height="400px"></iframe> </div></div></div>';
-        let iniPersonas = '<div class="row text-center" style="margin-top: 5px;"><div class="col-sm-6">';
-        let finPersonas = '</div>';
-        if(Entidades[indice].listaPersonas.length == 0){
-            totalPersonas = iniPersonas + "NO HAY PERSONAS RELACIONADAS" + finPersonas;
-        }
-        else{
-            for(let x=0 ; x<Entidades[indice].listaPersonas.length ; x++){
-                iniPersonas += '<img src="'+Personas[buscarIndicePersona("'"+Entidades[indice].listaPersonas[x]+"'")].image+'" width="50px" height="50px"/>';
-            }
-            totalPersonas = iniPersonas + finPersonas;
-        }
+        
+        let totalPersonas = crearHtmlDeLista(Entidades[indice].listaPersonas, Personas);
+        let listaPersonas = '<div class="row text-center" style="margin-top: 5px;">'+ totalPersonas +'</div>';
 
-        total = inicio + ini + nombre + dateCreation + dateDead + imagen + iframe + totalPersonas + fin;
+        total = botones + iniDatos + nombre + dateCreation + dateDead + imagen + iframe + listaPersonas + finDatos;
     }
-    
     main.innerHTML = total;
 }
 
